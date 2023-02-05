@@ -1,0 +1,10 @@
+.next {
+  color: white;
+  background-color: green;
+}
+
+.past {
+  color: grey;
+  text-decoration: line-through;
+}
+

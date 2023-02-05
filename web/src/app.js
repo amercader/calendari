@@ -1,6 +1,10 @@
 import Alpine from 'alpinejs'
 import autoComplete from '@tarekraafat/autocomplete.js'
 
+import './style.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '@tarekraafat/autocomplete.js/dist/css/autoComplete.02.css';
+
 window.Alpine = Alpine
 
 const festes = [
