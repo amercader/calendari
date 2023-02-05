@@ -11,13 +11,13 @@
     <main class="container col-lg-4 mx-auto px-4">
       <h1 class="pt-5">Calendari laboral a Catalunya 2023</h1>
 
-      <div class="px-4 py-4 mt-5 text-center mx-auto next">
+      <div class="px-4 py-4 mt-5 text-center mx-auto next" x-data>
         <p class="lead">La propera festa laboral a Catalunya és el</p>
-        <h1 class="display-5 fw-bold" x-data>
-          <span x-text="$store.holidays.next">24 d'Abril</span> (dimarts)
+        <h1 class="display-5 fw-bold">
+          <span x-text="$store.holidays.next"></span>
+          <span class="next-week-day">(<span x-text="$store.holidays.nextWeekDay"></span>)</span>
         </h1>
-
-        <p>Falten 43 dies</p>
+        <p class="pt-2 mb-1">Falten <span x-text="$store.holidays.daysUntilNext"></span> dies</p>
       </div>
 
       <div class="container mt-3 mb-5 text-center">
@@ -31,7 +31,16 @@
         </div>
       </div>
 
-      <table class="table">
+      <template id="holiday">
+         <tr>
+          <th scope="row">7 d'Abril</th>
+          <td>Dilluns</td>
+          <td>Pasqua Florida</td>
+          <td>Espanya</td>
+        </tr>
+      </template>
+
+      <table class="table" id="holidays">
         <thead>
           <tr>
             <th scope="col">Data</th>
@@ -41,18 +50,6 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="past">
-            <th scope="row">6 de Gener</th>
-            <td>Divendres</td>
-            <td>Reis</td>
-            <td>Catalunya</td>
-          </tr>
-          <tr>
-            <th scope="row">7 d'Abril</th>
-            <td>Dilluns</td>
-            <td>Pasqua Florida</td>
-            <td>Espanya</td>
-          </tr>
         </tbody>
       </table>
 

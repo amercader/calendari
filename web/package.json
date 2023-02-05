@@ -14,6 +14,7 @@
     "@tarekraafat/autocomplete.js": "^10.2.7",
     "alpinejs": "^3.11.1",
     "bootstrap": "^5.2.3",
+    "date-fns": "^2.29.3",
     "rollup-plugin-import-css": "^3.1.0"
   },
   "scripts": {

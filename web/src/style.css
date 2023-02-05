@@ -1,6 +1,10 @@
 .next {
   color: white;
-  background-color: green;
+  background-color: #2E633A;
+}
+
+.next-week-day {
+  font-size: 2rem;
 }
 
 .past {

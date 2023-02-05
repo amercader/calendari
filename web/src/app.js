@@ -1,3 +1,4 @@
+import differenceInDays from 'date-fns/differenceInDays'
 import Alpine from 'alpinejs'
 import autoComplete from '@tarekraafat/autocomplete.js'
 
@@ -23,17 +24,16 @@ const festes = [
   { date: '2023-12-26', name: 'Sant Esteve', ambit: 'Catalunya' }
 ]
 
-const nextHoliday = festes[1].date
-const date = new Date(nextHoliday)
+const nextHoliday = new Date(festes[1].date)
+const nextHolidayDate = new Intl.DateTimeFormat('ca', { month: 'long', day: 'numeric' }).format(nextHoliday)
+const nextHolidayWeekDay = new Intl.DateTimeFormat('ca', { weekday: 'long' }).format(nextHoliday)
+const daysUntilNext = differenceInDays(nextHoliday, new Date())
 
-// request a weekday along with a long date
-const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
-console.log(new Intl.DateTimeFormat('ca', options).format(date))
-
-console.log(nextHoliday)
 document.addEventListener('alpine:init', () => {
   Alpine.store('holidays', {
-    next: nextHoliday
+    next: nextHolidayDate,
+    nextWeekDay: nextHolidayWeekDay,
+    daysUntilNext: daysUntilNext
   })
 })
 
