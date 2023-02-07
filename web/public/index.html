@@ -14,10 +14,14 @@
       <div class="px-4 py-4 mt-5 text-center mx-auto next" x-data>
         <p class="lead">La propera festa laboral a Catalunya és el</p>
         <h1 class="display-5 fw-bold">
-          <span x-text="$store.holidays.next"></span>
-          <span class="next-week-day">(<span x-text="$store.holidays.nextWeekDay"></span>)</span>
+          <span x-text="$store.holidays.next.localeDate"></span>
+          <span class="next-week-day"
+            >(<span x-text="$store.holidays.next.weekDay"></span>)</span
+          >
         </h1>
-        <p class="pt-2 mb-1">Falten <span x-text="$store.holidays.daysUntilNext"></span> dies</p>
+        <p class="pt-2 mb-1">
+          Falten <span x-text="$store.holidays.daysUntilNext"></span> dies
+        </p>
       </div>
 
       <div class="container mt-3 mb-5 text-center">
@@ -31,16 +35,11 @@
         </div>
       </div>
 
-      <template id="holiday">
-         <tr>
-          <th scope="row">7 d'Abril</th>
-          <td>Dilluns</td>
-          <td>Pasqua Florida</td>
-          <td>Espanya</td>
-        </tr>
-      </template>
-
-      <table class="table" id="holidays">
+      <table
+        class="table"
+        id="holidays"
+        x-data="{holidays: $store.holidays.holidays}"
+      >
         <thead>
           <tr>
             <th scope="col">Data</th>
@@ -50,6 +49,18 @@
           </tr>
         </thead>
         <tbody>
+          <template
+            id="holiday"
+            x-for="holiday in holidays"
+            :key="holiday.date"
+          >
+            <tr :class="holiday.past ? 'past' : ''">
+              <th scope="row" x-text="holiday.localeDate"></th>
+              <td x-text="holiday.weekDay"></td>
+              <td x-text="holiday.name"></td>
+              <td x-text="holiday.scope"></td>
+            </tr>
+          </template>
         </tbody>
       </table>
 
