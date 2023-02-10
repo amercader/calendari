@@ -1,0 +1,8 @@
+node_modules
+geckodriver.log
+
+web/public/app.js
+web/public/app.js.map
+web/public/app.css
+
+
