@@ -2,8 +2,9 @@
 
 import argparse
 import csv
-import time
 import json
+import sys
+import time
 from random import randrange
 from urllib.parse import urlparse, parse_qs, urlencode
 import requests
@@ -15,7 +16,7 @@ from selenium.webdriver.common.by import By
 YEAR = 2023
 BASE_URL = "https://ocupacio.extranet.gencat.cat"
 
-DATA_DIR = "data"
+DATA_DIR = "."
 
 HOLIDAY_TYPE_CLASSES = {
     "dia2": "Estatal",
@@ -90,7 +91,7 @@ def get_place_holidays(place_id, driver):
 
 
 def get_common_holidays():
-    with open(f"{DATA_DIR}/festes_catalunya_2023.csv", newline="") as f:
+    with open(f"{DATA_DIR}/festes_catalunya_{YEAR}.csv", newline="") as f:
         reader = csv.DictReader(f)
         return [row for row in reader]
 
@@ -112,7 +113,7 @@ def scrape_places(driver, ids=None, start=None):
     # Festa d'Aran
     common.append(f"{YEAR}-06-17")
 
-    with open(f"{DATA_DIR}/festes_locals_catalunya_2023.csv", "a+") as f:
+    with open(f"{DATA_DIR}/festes_locals_catalunya_{YEAR}.csv", "a+") as f:
         fields = ["id", "nom", "festa1", "festa2"]
         writer = csv.DictWriter(f, fieldnames=fields)
         if not f.readline().startswith("id,"):
@@ -141,15 +142,36 @@ def scrape_places(driver, ids=None, start=None):
                 }
             )
 
-            with open(f"{DATA_DIR}/llocs/{id_}_2023.json", "w") as f:
+            with open(f"{DATA_DIR}/llocs/{id_}_{YEAR}.json", "w") as f:
                 json.dump(place, f)
+
+
+def create_web_files():
+
+    # JSON local holidays
+    with open(f"{DATA_DIR}/festes_locals_catalunya_{YEAR}.csv", newline="") as f:
+        reader = csv.DictReader(f)
+        items = [
+            {
+                "n": row["nom"],
+                "d": [
+                    row["festa1"].replace(f"{YEAR}", "").replace("-", ""),
+                    row["festa2"].replace(f"{YEAR}", "").replace("-", ""),
+                ],
+            }
+            for row in reader
+        ]
+        out = f"window.localHolidays = {json.dumps(items)}"
+
+        with open(f"{DATA_DIR}/web_locals_{YEAR}.js", "w") as f:
+            f.write(out)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "command",
-        choices=["place", "all-places", "places-ids"],
+        choices=["place", "all-places", "places-ids", "web-files"],
         help="""Action to perform.""",
     )
     parser.add_argument(
@@ -164,8 +186,12 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    driver = webdriver.Firefox()
+    if args.command == "web-files":
+        create_web_files()
+        sys.exit()
+
     try:
+        driver = webdriver.Firefox()
         if args.command == "place":
             if not args.id:
                 print("Need to provide an --id")
