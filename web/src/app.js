@@ -8,7 +8,9 @@ import '@tarekraafat/autocomplete.js/dist/css/autoComplete.02.css'
 
 window.Alpine = Alpine
 
-const holidays2023 = [
+const year = 2023
+const holidays = [
+
   { date: '2023-01-06', name: 'Reis', scope: 'Catalunya' },
   { date: '2023-04-07', name: 'Divendres Sant', scope: 'Espanya' },
   { date: '2023-04-10', name: 'Pasqua Florida', scope: 'Catalunya' },
@@ -26,27 +28,36 @@ const holidays2023 = [
 
 const dayFormatter = new Intl.DateTimeFormat('ca', { month: 'long', day: 'numeric' })
 const weekDayFormatter = new Intl.DateTimeFormat('ca', { weekday: 'long' })
-let nextHoliday = null
-const holidays = holidays2023.map(h => {
-  const holidayDate = new Date(h.date)
-  const past = holidayDate < new Date()
-  const out = {
-    ...h,
-    past,
-    localeDate: dayFormatter.format(holidayDate),
-    weekDay: weekDayFormatter.format(holidayDate)
-  }
-  nextHoliday = (!nextHoliday && !past) ? out : nextHoliday
-  return out
-}
-)
-const daysUntilNext = differenceInDays(new Date(nextHoliday.date), new Date())
+
 document.addEventListener('alpine:init', () => {
   Alpine.store('holidays', {
-    next: nextHoliday,
-    daysUntilNext,
-    holidays
+    next: {},
+    daysUntilNext: null,
+    holidays: [],
+    add(holiday) {
+
+      let newIndex = this.holidays.findIndex(h => h.date > holiday.date)
+      if (newIndex === -1) {
+        newIndex = this.holidays.length
+      }
+      const holidayDate = new Date(holiday.date)
+      holiday.past = holidayDate < new Date()
+      holiday.localeDate = holiday.localeDate || dayFormatter.format(holidayDate)
+      holiday.weekDay = holiday.weekDay || weekDayFormatter.format(holidayDate)
+
+      this.holidays.splice(newIndex, 0, holiday)
+
+      const nextIndex = this.holidays.findIndex(h => !h.past)
+
+      this.next = (nextIndex !== -1) ? this.holidays[nextIndex] : null
+      this.daysUntilNext = (this.next) ? differenceInDays(new Date(this.next.date), new Date()) : null
+    }
   })
+
+
+  holidays.forEach(h => Alpine.store('holidays').add(h))
+
+
 })
 
 const config = {
@@ -54,8 +65,8 @@ const config = {
   placeHolder: 'Search ...',
   data: {
 
-    src: window.ExtentsCat,
-    keys: ['name']
+    src: window.localHolidays,
+    keys: ['n']
   },
   resultItem: {
     highlight: {
@@ -68,11 +79,18 @@ const search = new autoComplete(config) // eslint-disable-line new-cap
 search.input.addEventListener('selection', function (event) {
   const feedback = event.detail
   search.input.blur()
-  const name = feedback.selection.value.name
 
-  console.log(feedback)
+  const name = feedback.selection.value.n
 
   search.input.value = name
+
+  // TODO: clear previous local ones
+
+  feedback.selection.value.d.forEach(d => {
+    const date = `${year}-${d.slice(0,2)}-${d.slice(2,4)}`
+
+    Alpine.store('holidays').add({'date': date, name: 'Festa local', scope: 'Local'})
+  })
 })
 
 Alpine.start()
