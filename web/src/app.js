@@ -31,6 +31,7 @@ const weekDayFormatter = new Intl.DateTimeFormat('ca', { weekday: 'long' })
 
 document.addEventListener('alpine:init', () => {
   Alpine.store('holidays', {
+    currentPlace: "Catalunya",
     next: {},
     daysUntilNext: null,
     holidays: [],
@@ -50,6 +51,13 @@ document.addEventListener('alpine:init', () => {
 
       this.next = (nextIndex !== -1) ? this.holidays[nextIndex] : null
       this.daysUntilNext = (this.next) ? differenceInDays(new Date(this.next.date), new Date()) : null
+    },
+    removeLocals () {
+      for (let i = this.holidays.length - 1; i >= 0; i--) {
+        if (this.holidays[i].scope === 'Local') {
+          this.holidays.splice(i, 1)
+        }
+      }
     }
   })
 
@@ -80,11 +88,10 @@ search.input.addEventListener('selection', function (event) {
 
   search.input.value = name
 
-  // TODO: clear previous local ones
-
+  Alpine.store('holidays').currentPlace = name
+  Alpine.store('holidays').removeLocals()
   feedback.selection.value.d.forEach(d => {
     const date = `${year}-${d.slice(0, 2)}-${d.slice(2, 4)}`
-
     Alpine.store('holidays').add({ date, name: 'Festa local', scope: 'Local' })
   })
 })
