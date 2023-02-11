@@ -83,7 +83,7 @@ search.input.addEventListener('selection', function (event) {
   const feedback = event.detail
   search.input.blur()
 
-  const name = feedback.selection.value.n
+  let name = feedback.selection.value.n
 
   search.input.value = name
 

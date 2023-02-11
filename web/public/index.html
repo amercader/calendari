@@ -66,14 +66,14 @@
 
       <div class="text-center"></div>
 
-      <div class="px-4 py-5 my-5 text-center">
+      <div class="px-4 py-3 my-5 text-center">
         <div class="col-lg-6 mx-auto">
-          <p class="lead mb-4">
-            Descarrega les festes laborals per afegir-les al teu calendari
+          <p class="lead mb-4" x-data>
+            Descarrega les festes laborals a <span x-text="$store.holidays.currentPlace">Catalunya</span> per afegir-les al teu calendari
             (Google Calendar, Iphone, Outlook, etc).
           </p>
           <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-            <button type="button" class="btn btn-primary btn-lg px-4 gap-3">
+            <button type="button" class="btn btn-success btn-lg px-4 gap-3">
               Descarrega calendari (iCal)
             </button>
           </div>

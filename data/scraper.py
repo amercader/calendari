@@ -146,6 +146,13 @@ def scrape_places(driver, ids=None, start=None):
                 json.dump(place, f)
 
 
+def parse_name(name):
+    if "," in name:
+        parts = name.split(",")
+        name = f"{parts[1]}{parts[0]}" if "'" in parts[1] else f"{parts[1]} {parts[0]}"
+    return name.strip()
+
+
 def create_web_files():
 
     # JSON local holidays
@@ -153,7 +160,7 @@ def create_web_files():
         reader = csv.DictReader(f)
         items = [
             {
-                "n": row["nom"],
+                "n": parse_name(row["nom"]),
                 "d": [
                     row["festa1"].replace(f"{YEAR}", "").replace("-", ""),
                     row["festa2"].replace(f"{YEAR}", "").replace("-", ""),
