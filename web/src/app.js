@@ -2,9 +2,9 @@ import differenceInDays from 'date-fns/differenceInDays'
 import Alpine from 'alpinejs'
 import autoComplete from '@tarekraafat/autocomplete.js'
 
-import './style.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '@tarekraafat/autocomplete.js/dist/css/autoComplete.02.css'
+import './style.css'
 
 window.Alpine = Alpine
 
@@ -66,9 +66,8 @@ document.addEventListener('alpine:init', () => {
 
 const config = {
   selector: '#search',
-  placeHolder: 'Search ...',
+  placeHolder: '',
   data: {
-
     src: window.localHolidays,
     keys: ['n']
   },

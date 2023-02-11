@@ -24,13 +24,13 @@
         </p>
       </div>
 
-      <div class="container mt-3 mb-5 text-center">
-        <div class="row">
-          <div class="col-sm lead">
+      <div class="container mt-3 mb-4 ps-0 text-start">
+        <div>
+          <div class="lead">
             Escull el teu municipi per incloure les festes locals:
           </div>
-          <div class="col-sm mt-3">
-            <input id="search" autocomplete="off" />
+          <div class="mt-2 pe-0 text-start">
+            <input id="search" autocomplete="off" class="form-control" />
           </div>
         </div>
       </div>
@@ -54,7 +54,7 @@
             x-for="holiday in holidays"
             :key="holiday.date"
           >
-            <tr :class="holiday.past ? 'past' : ''">
+            <tr :class="{'past': holiday.past, 'new-holiday': holiday.scope === 'Local'}">
               <th scope="row" x-text="holiday.localeDate"></th>
               <td x-text="holiday.weekDay"></td>
               <td x-text="holiday.name"></td>
