@@ -31,7 +31,7 @@ const weekDayFormatter = new Intl.DateTimeFormat('ca', { weekday: 'long' })
 
 document.addEventListener('alpine:init', () => {
   Alpine.store('holidays', {
-    currentPlace: "Catalunya",
+    currentPlace: 'Catalunya',
     next: {},
     daysUntilNext: null,
     holidays: [],
@@ -64,35 +64,52 @@ document.addEventListener('alpine:init', () => {
   holidays.forEach(h => Alpine.store('holidays').add(h))
 })
 
-const config = {
-  selector: '#search',
-  placeHolder: '',
-  data: {
-    src: window.localHolidays,
-    keys: ['n']
-  },
-  resultItem: {
-    highlight: {
-      render: true
+Alpine.data('search', () => ({
+  alertOpen: false,
+  searchControl: null,
+  init () {
+    const config = {
+      selector: '#search',
+      placeHolder: '',
+      data: {
+        src: window.localHolidays,
+        keys: ['n']
+      },
+      resultItem: {
+        highlight: {
+          render: true
+        }
+      }
     }
+    this.searchControl = new autoComplete(config) // eslint-disable-line new-cap
+    this.searchControl.input.addEventListener('selection', this.onResult.bind(this))
+  },
+
+  onResult (event) {
+    const feedback = event.detail
+    this.searchControl.input.blur()
+
+    const name = feedback.selection.value.n
+    const dates = feedback.selection.value.d
+
+    if (!dates) {
+      this.toggleAlert()
+      return
+    }
+    this.searchControl.input.value = name
+
+    Alpine.store('holidays').currentPlace = name
+    Alpine.store('holidays').removeLocals()
+    dates.forEach(d => {
+        const date = `${year}-${d.slice(0, 2)}-${d.slice(2, 4)}`
+        Alpine.store('holidays').add({ date, name: 'Festa local', scope: 'Local' })
+      })
+  },
+
+  toggleAlert () {
+    this.alertOpen = !this.alertOpen
   }
-}
-const search = new autoComplete(config) // eslint-disable-line new-cap
 
-search.input.addEventListener('selection', function (event) {
-  const feedback = event.detail
-  search.input.blur()
-
-  let name = feedback.selection.value.n
-
-  search.input.value = name
-
-  Alpine.store('holidays').currentPlace = name
-  Alpine.store('holidays').removeLocals()
-  feedback.selection.value.d.forEach(d => {
-    const date = `${year}-${d.slice(0, 2)}-${d.slice(2, 4)}`
-    Alpine.store('holidays').add({ date, name: 'Festa local', scope: 'Local' })
-  })
-})
+}))
 
 Alpine.start()

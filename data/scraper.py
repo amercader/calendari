@@ -164,7 +164,7 @@ def create_web_files():
                 "d": [
                     row["festa1"].replace(f"{YEAR}", "").replace("-", ""),
                     row["festa2"].replace(f"{YEAR}", "").replace("-", ""),
-                ],
+                ] if row["festa1"] else None,
             }
             for row in reader
         ]

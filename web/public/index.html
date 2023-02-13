@@ -24,7 +24,7 @@
         </p>
       </div>
 
-      <div class="container mt-3 mb-4 ps-0 text-start">
+      <div class="container mt-3 mb-4 ps-0 text-start" x-data="search">
         <div>
           <div class="lead">
             Escull el teu municipi per incloure les festes locals:
@@ -32,6 +32,10 @@
           <div class="mt-2 pe-0 text-start">
             <input id="search" autocomplete="off" class="form-control" />
           </div>
+        </div>
+        <div class="alert alert-danger alert-dismissible mt-2" role="alert" x-show="alertOpen" x-transition>
+          Les festes locals d'aquesta localitat no estan disponibles :(
+          <button type="button" class="btn-close" aria-label="Close" x-on:click="toggleAlert"></button>
         </div>
       </div>
 
