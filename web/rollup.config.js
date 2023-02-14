@@ -1,6 +1,6 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
-import { terser } from '@rollup/plugin-terser';
+import terser from '@rollup/plugin-terser';
 import css from 'rollup-plugin-import-css';
 
 // `npm run build` -> `production` is true
