@@ -10,7 +10,7 @@
   # a base has not been set. This sample publishes the directory
   # located at the absolute path "root/project/build-output"
 
-  publish = "web/public/"
+  publish = "public/"
 
   # Default build command.
   command = "npm run build"
