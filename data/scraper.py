@@ -2,16 +2,20 @@
 
 import argparse
 import csv
+import datetime
 import json
 import sys
 import time
 from random import randrange
-from urllib.parse import urlparse, parse_qs, urlencode
+from urllib.parse import parse_qs, urlencode, urlparse
+import uuid
+
 import requests
-from tqdm.auto import tqdm
 from bs4 import BeautifulSoup
+from icalendar import Calendar, Event
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from tqdm.auto import tqdm
 
 YEAR = 2023
 BASE_URL = "https://ocupacio.extranet.gencat.cat"
@@ -164,7 +168,9 @@ def create_web_files():
                 "d": [
                     row["festa1"].replace(f"{YEAR}", "").replace("-", ""),
                     row["festa2"].replace(f"{YEAR}", "").replace("-", ""),
-                ] if row["festa1"] else None,
+                ]
+                if row["festa1"]
+                else None,
             }
             for row in reader
         ]
@@ -174,11 +180,34 @@ def create_web_files():
             f.write(out)
 
 
+def create_ics_file():
+
+    holidays = get_common_holidays()
+
+    cal = Calendar()
+    cal.add("prodid", "-//Quan és festa?//quanesfesta.cat//")
+    cal.add("version", "2.0")
+    base_id = str(uuid.uuid4())
+    for holiday in holidays:
+        event = Event()
+        event.add("summary", holiday["nom"])
+        date = datetime.datetime.strptime(holiday["data"], "%Y-%m-%d")
+        event.add("dtstart", date)
+        event.add("dtend", date + datetime.timedelta(days=1))
+        event.add("dtstamp", datetime.datetime.now(datetime.timezone.utc))
+        event.add("uid", f"{base_id}-{holiday['data']}@quanesfesta.cat")
+
+        cal.add_component(event)
+
+    with open(f"{DATA_DIR}/festes_catalunya_{YEAR}.ics", "wb") as f:
+        f.write(cal.to_ical())
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "command",
-        choices=["place", "all-places", "places-ids", "web-files"],
+        choices=["place", "all-places", "places-ids", "web-files", "calendar"],
         help="""Action to perform.""",
     )
     parser.add_argument(
@@ -193,27 +222,32 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
+    if args.command in ["place", "all-places", "places-ids"]:
+        try:
+            driver = webdriver.Firefox()
+            if args.command == "place":
+                if not args.id:
+                    print("Need to provide an --id")
+
+                scrape_places(
+                    driver,
+                    ids=[args.id],
+                )
+            elif args.command == "all-places":
+
+                scrape_places(driver, start=args.start)
+
+            elif args.command == "places-ids":
+
+                save_places_links()
+
+        finally:
+            driver.quit()
+
+            sys.exit()
+
     if args.command == "web-files":
         create_web_files()
-        sys.exit()
 
-    try:
-        driver = webdriver.Firefox()
-        if args.command == "place":
-            if not args.id:
-                print("Need to provide an --id")
-
-            scrape_places(
-                driver,
-                ids=[args.id],
-            )
-        elif args.command == "all-places":
-
-            scrape_places(driver, start=args.start)
-
-        elif args.command == "places-ids":
-
-            save_places_links()
-
-    finally:
-        driver.quit()
+    elif args.command == "calendar":
+        create_ics_file()
