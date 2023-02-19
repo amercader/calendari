@@ -12,7 +12,13 @@
       <h1 class="pt-5">Calendari laboral a Catalunya 2023</h1>
 
       <div class="px-4 py-4 mt-5 text-center mx-auto next" x-data>
-        <p class="lead">La propera festa laboral a <span class="fw-bold" x-text="$store.holidays.currentPlace">Catalunya</span> és el</p>
+        <p class="lead">
+          La propera festa laboral a
+          <span class="fw-bold" x-text="$store.holidays.currentPlace"
+            >Catalunya</span
+          >
+          és el
+        </p>
         <h1 class="display-5 fw-bold">
           <span x-text="$store.holidays.next.localeDate"></span>
           <span class="next-week-day"
@@ -33,9 +39,19 @@
             <input id="search" autocomplete="off" class="form-control" />
           </div>
         </div>
-        <div class="alert alert-danger alert-dismissible mt-2" role="alert" x-show="alertOpen" x-transition>
+        <div
+          class="alert alert-danger alert-dismissible mt-2"
+          role="alert"
+          x-show="alertOpen"
+          x-transition
+        >
           Les festes locals d'aquesta localitat no estan disponibles :(
-          <button type="button" class="btn-close" aria-label="Close" x-on:click="toggleAlert"></button>
+          <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            x-on:click="toggleAlert"
+          ></button>
         </div>
       </div>
 
@@ -58,7 +74,9 @@
             x-for="holiday in holidays"
             :key="holiday.date"
           >
-            <tr :class="{'past': holiday.past, 'new-holiday': holiday.scope === 'Local'}">
+            <tr
+              :class="{'past': holiday.past, 'new-holiday': holiday.scope === 'Local'}"
+            >
               <th scope="row" x-text="holiday.localeDate"></th>
               <td x-text="holiday.weekDay"></td>
               <td x-text="holiday.name"></td>
@@ -71,15 +89,19 @@
       <div class="text-center"></div>
 
       <div class="px-4 py-3 my-5 text-center">
-        <div class="col-lg-6 mx-auto">
+        <div class="col-lg-8 mx-auto">
           <p class="lead mb-4" x-data>
-            Descarrega les festes laborals a <span x-text="$store.holidays.currentPlace">Catalunya</span> per afegir-les al teu calendari
-            (Google Calendar, Iphone, Outlook, etc).
+            Descarrega les festes laborals a
+            <span x-text="$store.holidays.currentPlace">Catalunya</span> per
+            afegir-les al teu calendari (Google Calendar, Iphone, Outlook, etc).
           </p>
           <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-            <button type="button" class="btn btn-success btn-lg px-4 gap-3">
-              Descarrega calendari (iCal)
-            </button>
+            <a
+              href="cal/festes_catalunya_2023.ics"
+              class="btn btn-success btn-lg px-4 gap-3"
+              role="button"
+              >Descarrega calendari (ICS)</a
+            >
           </div>
         </div>
       </div>
