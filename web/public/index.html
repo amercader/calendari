@@ -88,15 +88,16 @@
 
       <div class="text-center"></div>
 
-      <div class="px-4 py-3 my-5 text-center">
+      <div class="px-4 py-3 my-5 text-center" x-data="calendar">
         <div class="col-lg-8 mx-auto">
-          <p class="lead mb-4" x-data>
+          <p class="lead mb-4">
             Descarrega les festes laborals a
             <span x-text="$store.holidays.currentPlace">Catalunya</span> per
             afegir-les al teu calendari (Google Calendar, Iphone, Outlook, etc).
           </p>
           <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
             <a
+              id="downloadCalendar"
               href="cal/festes_catalunya_2023.ics"
               class="btn btn-success btn-lg px-4 gap-3"
               role="button"

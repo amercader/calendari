@@ -1,4 +1,5 @@
 import differenceInDays from 'date-fns/differenceInDays'
+import format from 'date-fns/format'
 import Alpine from 'alpinejs'
 import autoComplete from '@tarekraafat/autocomplete.js'
 
@@ -8,6 +9,7 @@ import './style.css'
 
 window.Alpine = Alpine
 
+const uuid = 'e11d0663-1ffd-4936-83d2-7fd6a2ccf874'
 const year = 2023
 const holidays = [
 
@@ -59,7 +61,8 @@ document.addEventListener('alpine:init', () => {
         }
       }
     }
-  })
+  }
+  )
 
   holidays.forEach(h => Alpine.store('holidays').add(h))
 })
@@ -100,16 +103,58 @@ Alpine.data('search', () => ({
 
     Alpine.store('holidays').currentPlace = name
     Alpine.store('holidays').removeLocals()
+    const localDates = []
     dates.forEach(d => {
-        const date = `${year}-${d.slice(0, 2)}-${d.slice(2, 4)}`
-        Alpine.store('holidays').add({ date, name: 'Festa local', scope: 'Local' })
-      })
+      const date = `${year}-${d.slice(0, 2)}-${d.slice(2, 4)}`
+      localDates.push(date)
+      Alpine.store('holidays').add({ date, name: 'Festa local', scope: 'Local' })
+    })
+    document.dispatchEvent(new CustomEvent('new-local-dates', { detail: { dates: localDates, name } }))
   },
 
   toggleAlert () {
     this.alertOpen = !this.alertOpen
   }
 
+}))
+
+Alpine.data('calendar', () => ({
+  a: document.getElementById('downloadCalendar'),
+  mainCalendar: null,
+  localCalendar: null,
+  init () {
+    fetch(`cal/festes_catalunya_${year}.ics`)
+      .then((response) => response.text())
+      .then((data) => {
+        this.mainCalendar = data
+      })
+
+    document.addEventListener('new-local-dates', (e) => this.updateLocalCalendar(e.detail.dates, e.detail.name))
+  },
+  updateLocalCalendar (dates, place) {
+    const localCalendar = this.mainCalendar.trim().split('\r\n')
+    dates.forEach((d) => {
+      const date = new Date(d)
+      const start = format(date, "yyyyMMdd'T'000000")
+      const end = format(date.setDate(date.getDate() + 1), "yyyyMMdd'T'000000")
+      const timestamp = format(new Date(), "yyyyMMdd'T'HHmmss'Z'")
+      const vevent = [
+        'BEGIN:VEVENT',
+        `SUMMARY:Festa local a ${place}`,
+        `DTSTART:${start}`,
+        `DTEND:${end}`,
+        `DTSTAMP:${timestamp}`,
+        `UID:${uuid}-${d}@quanesfesta.cat`,
+        'END:VEVENT'
+      ]
+      localCalendar.splice(localCalendar.length - 1, 0, ...vevent)
+    })
+    const blob = new Blob(localCalendar.map(l => l + '\r\n'), { type: 'text/calendar' })
+    const url = URL.createObjectURL(blob)
+    this.a.setAttribute('href', url)
+    // TODO: name
+    this.a.setAttribute('download', 'calcal.ics')
+  }
 }))
 
 Alpine.start()
