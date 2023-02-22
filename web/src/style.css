@@ -1,3 +1,15 @@
+/* Global */
+
+h1 {
+  font-size: 3rem;
+}
+
+@media (max-width: 576px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+}
+
 /* Lead */
 
 .lead {
@@ -37,6 +49,16 @@
   border-radius: 0;
 }
 
+.search-label {
+  font-size: 1.10rem;
+}
+@media (max-width: 576px) {
+  .search-label {
+    font-size: 1.05rem;
+  }
+}
+
+
 .mark, mark {
   padding: 0;
 }
@@ -47,11 +69,25 @@
   background-position: center left -2px;
   background-size: 40px 40px;
   padding-left: 35px;
+  margin-left: 15px;
+}
+@media (max-width: 576px) {
+  .autoComplete_wrapper > input {
+    margin-left: 0;
+    width: 380px;
+  }
 }
 
 .autoComplete_wrapper > ul {
   margin: 0;
   border-radius: 0;
+}
+
+@media (min-width: 576px) {
+  .autoComplete_wrapper > ul {
+    width: 370px;
+    margin-left: 15px;
+  }
 }
 
 .autoComplete_wrapper > ul > li mark {
