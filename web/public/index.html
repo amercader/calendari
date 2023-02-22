@@ -32,11 +32,11 @@
       </div>
 
       <div class="container mt-3 mb-4 ps-0 text-start" x-data="search">
-        <div>
-          <div class="lead">
-            Escull el teu municipi per incloure les festes locals:
+        <div class="row">
+          <div class="search-label mt-2 col">
+            Escull un municipi per incloure les festes locals:
           </div>
-          <div class="mt-2 pe-0 text-start">
+          <div class="mt-2 pe-0 text-start col">
             <input id="search" autocomplete="off" class="form-control" />
           </div>
         </div>
@@ -57,7 +57,7 @@
       </div>
 
       <table
-        class="table"
+        class="table table-striped"
         id="holidays"
         x-data="{holidays: $store.holidays.holidays}"
       >
@@ -94,7 +94,7 @@
           <p class="lead mb-4">
             Descarrega les festes laborals a
             <span x-text="$store.holidays.currentPlace">Catalunya</span> per
-            afegir-les al teu calendari (Google Calendar, Iphone, Outlook, etc).
+            afegir-les al teu calendari (Google Calendar, iPhone, Outlook, etc).
           </p>
           <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
             <a
@@ -107,6 +107,9 @@
           </div>
         </div>
       </div>
+
+      <hr/>
+
     </main>
 
     <script src="web_locals_2023.js"></script>
