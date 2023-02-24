@@ -14,3 +14,8 @@
 
   # Default build command.
   command = "npm run build"
+
+[[redirects]]
+  from = "/"
+  to = "/2023"
+  status = 302
