@@ -192,7 +192,7 @@ def _create_web_local_files():
     # Copy CSV file
     shutil.copy2(
         input_file,
-        f"{OUTPUT_DIR}/festes_local_catalunya_{YEAR}.csv",
+        f"{OUTPUT_DIR}/festes_locals_catalunya_{YEAR}.csv",
     )
 
     with open(input_file, newline="") as f:
