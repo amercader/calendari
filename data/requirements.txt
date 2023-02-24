@@ -1,0 +1,6 @@
+openpyxl
+requests
+beautifulsoup4
+icalendar
+selenium
+tqdm

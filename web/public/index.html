@@ -87,19 +87,17 @@
         </tbody>
       </table>
 
-      <div class="text-center"></div>
-
-      <div class="px-4 py-3 my-5 text-center" x-data="calendar">
-        <div class="col-lg-8 mx-auto">
+      <div class="px-4 py-3 my-3 text-center" x-data="calendar">
+        <div class="col-lg-10 mx-auto">
           <p class="lead mb-4">
             Descarrega les festes laborals a
             <span x-text="$store.holidays.currentPlace">Catalunya</span> per
             afegir-les al teu calendari (Google Calendar, iPhone, Outlook, etc).
           </p>
-          <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+          <div class="d-grid gap-1 d-sm-flex justify-content-sm-center">
             <a
               id="downloadCalendar"
-              href="cal/festes_catalunya_2023.ics"
+              href="data/festes_catalunya_2023.ics"
               class="btn btn-success btn-lg px-4 gap-3"
               role="button"
               >Descarrega calendari (ICS)</a
@@ -108,10 +106,31 @@
         </div>
       </div>
 
-      <hr/>
+      <div class="my-5">
+        <h3>Descàrregues</h3>
+        <table class="table mt-3">
+          <tbody>
+              <tr>
+                <th scope="row">Festes laborals a Catalunya 2023</th>
+                <td><a href="/data/festes_catalunya_2023.xlsx">Excel</a> (9.2 Kb)</td>
+                <td><a href="/data/festes_catalunya_2023.csv">CSV</a> (0.5 Kb)</td>
+                <td><a href="/data/festes_catalunya_2023.json">JSON</a> (0.9 Kb)</td>
+              </tr>
+              <tr>
+                <th scope="row">Festes locals a Catalunya 2023</th>
+                <td><a href="/data/festes_locals_catalunya_2023.xlsx">Excel</a> (50 Kb)</td>
+                <td><a href="/data/festes_locals_catalunya_2023.csv">CSV</a> (59 Kb)</td>
+                <td><a href="/data/festes_locals_catalunya_2023.json">JSON</a> (xx Kb)</td>
+              </tr>
+          </tbody>
+        </table>
+        <p class="fst-italic">Font: <a href="https://treball.gencat.cat/ca/ambits/relacions_laborals/ci/calendari_laboral/festes_generals_locals_Cat/index.html">Generalitat de Catalunya</a> § Llicència: <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0</a></p>
 
+      </div>
+      <hr/>
+      <p>Fet per <a href="https://amercader.net">amercader</a>. Codi font disponible a <a href="https://github.com/amercader/calendari">GitHub</a>.
     </main>
 
-    <script src="web_locals_2023.js"></script>
+    <script src="data/web_locals_2023.js"></script>
   </body>
 </html>

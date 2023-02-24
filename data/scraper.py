@@ -4,12 +4,14 @@ import argparse
 import csv
 import datetime
 import json
+import shutil
 import sys
 import time
+import uuid
 from random import randrange
 from urllib.parse import parse_qs, urlencode, urlparse
-import uuid
 
+import openpyxl
 import requests
 from bs4 import BeautifulSoup
 from icalendar import Calendar, Event
@@ -19,8 +21,10 @@ from tqdm.auto import tqdm
 
 YEAR = 2023
 BASE_URL = "https://ocupacio.extranet.gencat.cat"
+BASE_ID = "e11d0663-1ffd-4936-83d2-7fd6a2ccf874"
 
 DATA_DIR = "."
+OUTPUT_DIR = "../web/public/data"
 
 HOLIDAY_TYPE_CLASSES = {
     "dia2": "Estatal",
@@ -157,27 +161,84 @@ def parse_name(name):
     return name.strip()
 
 
+def _create_web_common_files():
+
+    # Copy CSV file
+    shutil.copy2(
+        f"{DATA_DIR}/festes_catalunya_{YEAR}.csv",
+        f"{OUTPUT_DIR}/festes_catalunya_{YEAR}.csv",
+    )
+
+    holidays = get_common_holidays()
+
+    # Create XLSX file
+    wb = openpyxl.Workbook()
+    ws = wb.active
+
+    ws.append(["data", "nom", "ambit"])
+    for holiday in holidays:
+        ws.append(list(holiday.values()))
+    wb.save(f"{OUTPUT_DIR}/festes_catalunya_{YEAR}.xlsx")
+
+    # Create JSON file
+    with open(f"{OUTPUT_DIR}/festes_catalunya_{YEAR}.json", "w") as f:
+        json.dump(holidays, f)
+
+
+def _create_web_local_files():
+
+    input_file = f"{DATA_DIR}/festes_locals_catalunya_{YEAR}.csv"
+
+    # Copy CSV file
+    shutil.copy2(
+        input_file,
+        f"{OUTPUT_DIR}/festes_local_catalunya_{YEAR}.csv",
+    )
+
+    with open(input_file, newline="") as f:
+        reader = csv.DictReader(f)
+        rows = [row for row in reader]
+
+    # Web JS
+    items = [
+        {
+            "n": parse_name(row["nom"]),
+            "d": [
+                row["festa1"].replace(f"{YEAR}", "").replace("-", ""),
+                row["festa2"].replace(f"{YEAR}", "").replace("-", ""),
+            ]
+            if row["festa1"]
+            else None,
+        }
+        for row in rows
+    ]
+
+    out = f"window.localHolidays = {json.dumps(items)}"
+
+    with open(f"{OUTPUT_DIR}/web_locals_{YEAR}.js", "w") as f:
+        f.write(out)
+
+    # JSON download
+    with open(f"{OUTPUT_DIR}/festes_locals_catalunya_{YEAR}.json", "w") as f:
+        json.dump(rows, f)
+
+    # XLSX download
+    wb = openpyxl.Workbook()
+    ws = wb.active
+
+    ws.append(["id", "nom", "festa1", "festa2"])
+    for row in rows:
+        ws.append(list(row.values()))
+    wb.save(f"{OUTPUT_DIR}/festes_locals_catalunya_{YEAR}.xlsx")
+
+
 def create_web_files():
 
-    # JSON local holidays
-    with open(f"{DATA_DIR}/festes_locals_catalunya_{YEAR}.csv", newline="") as f:
-        reader = csv.DictReader(f)
-        items = [
-            {
-                "n": parse_name(row["nom"]),
-                "d": [
-                    row["festa1"].replace(f"{YEAR}", "").replace("-", ""),
-                    row["festa2"].replace(f"{YEAR}", "").replace("-", ""),
-                ]
-                if row["festa1"]
-                else None,
-            }
-            for row in reader
-        ]
-        out = f"window.localHolidays = {json.dumps(items)}"
+    _create_web_common_files()
 
-        with open(f"{DATA_DIR}/web_locals_{YEAR}.js", "w") as f:
-            f.write(out)
+    _create_web_local_files()
+
+    create_ics_file()
 
 
 def create_ics_file():
@@ -187,7 +248,6 @@ def create_ics_file():
     cal = Calendar()
     cal.add("prodid", "-//Quan és festa?//quanesfesta.cat//")
     cal.add("version", "2.0")
-    base_id = str(uuid.uuid4())
     for holiday in holidays:
         event = Event()
         event.add("summary", holiday["nom"])
@@ -195,11 +255,11 @@ def create_ics_file():
         event.add("dtstart", date)
         event.add("dtend", date + datetime.timedelta(days=1))
         event.add("dtstamp", datetime.datetime.now(datetime.timezone.utc))
-        event.add("uid", f"{base_id}-{holiday['data']}@quanesfesta.cat")
+        event.add("uid", f"{BASE_ID}-{holiday['data']}@quanesfesta.cat")
 
         cal.add_component(event)
 
-    with open(f"{DATA_DIR}/festes_catalunya_{YEAR}.ics", "wb") as f:
+    with open(f"{OUTPUT_DIR}/festes_catalunya_{YEAR}.ics", "wb") as f:
         f.write(cal.to_ical())
 
 
