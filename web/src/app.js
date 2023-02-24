@@ -1,5 +1,6 @@
 import differenceInDays from 'date-fns/differenceInDays'
 import format from 'date-fns/format'
+import slugify from 'slugify'
 import Alpine from 'alpinejs'
 import autoComplete from '@tarekraafat/autocomplete.js'
 
@@ -152,8 +153,7 @@ Alpine.data('calendar', () => ({
     const blob = new Blob(localCalendar.map(l => l + '\r\n'), { type: 'text/calendar' })
     const url = URL.createObjectURL(blob)
     this.a.setAttribute('href', url)
-    // TODO: name
-    this.a.setAttribute('download', 'calcal.ics')
+    this.a.setAttribute('download', `festes_${slugify(place, {replacement: "_", lower: true})}_${year}.ics`)
   }
 }))
 
