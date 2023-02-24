@@ -12,23 +12,31 @@
       <h1 class="pt-5">Calendari laboral a Catalunya 2023</h1>
 
       <div class="px-4 py-4 mt-5 text-center mx-auto next" x-data>
-        <p class="lead">
-          La propera festa laboral a
-          <span class="fw-bold" x-text="$store.holidays.currentPlace"
-            >Catalunya</span
-          >
-          és el
-        </p>
-        <h1 class="display-5 fw-bold">
-          <span x-text="$store.holidays.next.localeDate"></span>
-          <span class="next-week-day"
-            >(<span x-text="$store.holidays.next.weekDay"></span>)</span
-          >
-        </h1>
-        <h2 x-text="$store.holidays.next.name"></h2>
-        <p class="pt-2 mb-1">
-          Falten <span x-text="$store.holidays.daysUntilNext"></span> dies
-        </p>
+        <div x-show="$store.holidays.next">
+          <p class="lead">
+            La propera festa laboral a
+            <span class="fw-bold" x-text="$store.holidays.currentPlace"
+              >Catalunya</span
+            >
+            és el
+          </p>
+          <h1 class="display-5 fw-bold">
+            <span x-text="$store.holidays.next.localeDate"></span>
+            <span class="next-week-day"
+              >(<span x-text="$store.holidays.next.weekDay"></span>)</span
+            >
+          </h1>
+          <h2 x-text="$store.holidays.next.name"></h2>
+          <p class="pt-2 mb-1">
+            Falten <span x-text="$store.holidays.daysUntilNext"></span> dies
+          </p>
+        </div>
+        <div x-show="!$store.holidays.next">
+          <p class="lead">
+            No hi ha més festes laborals el 2023
+          </p>
+        </div>
+
       </div>
 
       <div class="container mt-3 mb-4 ps-0 text-start" x-data="search">
