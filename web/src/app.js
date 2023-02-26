@@ -124,7 +124,7 @@ Alpine.data('calendar', () => ({
   mainCalendar: null,
   localCalendar: null,
   init () {
-    fetch(`${year}/data/festes_catalunya_${year}.ics`)
+    fetch(`data/festes_catalunya_${year}.ics`)
       .then((response) => response.text())
       .then((data) => {
         this.mainCalendar = data
