@@ -32,6 +32,15 @@ const holidays = [
 const dayFormatter = new Intl.DateTimeFormat('ca', { month: 'long', day: 'numeric' })
 const weekDayFormatter = new Intl.DateTimeFormat('ca', { weekday: 'long' })
 
+fetch('schema.jsonld')
+  .then(response => response.text())
+  .then(structuredDataText => {
+    const script = document.createElement('script')
+    script.setAttribute('type', 'application/ld+json')
+    script.textContent = structuredDataText
+    document.head.appendChild(script)
+  })
+
 document.addEventListener('alpine:init', () => {
   Alpine.store('holidays', {
     currentPlace: 'Catalunya',
@@ -153,7 +162,7 @@ Alpine.data('calendar', () => ({
     const blob = new Blob(localCalendar.map(l => l + '\r\n'), { type: 'text/calendar' })
     const url = URL.createObjectURL(blob)
     this.a.setAttribute('href', url)
-    this.a.setAttribute('download', `festes_${slugify(place, {replacement: "_", lower: true})}_${year}.ics`)
+    this.a.setAttribute('download', `festes_${slugify(place, { replacement: '_', lower: true })}_${year}.ics`)
   }
 }))
 
