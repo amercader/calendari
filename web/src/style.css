@@ -69,12 +69,22 @@ h1 {
   background-position: center left -2px;
   background-size: 40px 40px;
   padding-left: 35px;
-  margin-left: 15px;
 }
-@media (max-width: 576px) {
+/*
+@media only screen and (min-width: 350px) {
   .autoComplete_wrapper > input {
     margin-left: 0;
-    width: 380px;
+    width: 340px;
+  }
+}
+*/
+@media (min-width: 576px) {
+  .autoComplete_wrapper {
+    margin-left: 15px;
+  }
+
+  .autoComplete_wrapper > input {
+    margin-left: 0;
   }
 }
 
