@@ -70,14 +70,7 @@ h1 {
   background-size: 40px 40px;
   padding-left: 35px;
 }
-/*
-@media only screen and (min-width: 350px) {
-  .autoComplete_wrapper > input {
-    margin-left: 0;
-    width: 340px;
-  }
-}
-*/
+
 @media (min-width: 576px) {
   .autoComplete_wrapper {
     margin-left: 15px;
@@ -86,18 +79,16 @@ h1 {
   .autoComplete_wrapper > input {
     margin-left: 0;
   }
+
+  .autoComplete_wrapper > ul {
+    width: 370px;
+  }
+
 }
 
 .autoComplete_wrapper > ul {
   margin: 0;
   border-radius: 0;
-}
-
-@media (min-width: 576px) {
-  .autoComplete_wrapper > ul {
-    width: 370px;
-    margin-left: 15px;
-  }
 }
 
 .autoComplete_wrapper > ul > li mark {
