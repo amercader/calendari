@@ -1,5 +1,5 @@
-# Calendari laboral a Catalunya - quanesfesta
-.cat
+# Calendari laboral a Catalunya - quanesfesta.cat
+
 
 (English below)
 
