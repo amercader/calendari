@@ -231,12 +231,12 @@
             },
             {
                 "@type": "DataDownload",
-                "contentUrl": "https://quanesfesta.cat/2023/data/festes_locals__catalunya_2023.csv",
+                "contentUrl": "https://quanesfesta.cat/2023/data/festes_locals_catalunya_2023.csv",
                 "encodingFormat": "application/csv"
             },
             {
                 "@type": "DataDownload",
-                "contentUrl": "https://quanesfesta.cat/2023/data/festes_locals__catalunya_2023.json",
+                "contentUrl": "https://quanesfesta.cat/2023/data/festes_locals_catalunya_2023.json",
                 "encodingFormat": "application/json"
             }
         ]
