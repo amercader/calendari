@@ -1,12 +1,15 @@
 import differenceInDays from 'date-fns/differenceInDays'
 import format from 'date-fns/format'
 import slugify from 'slugify'
+import PineconeRouter from 'pinecone-router'
 import Alpine from 'alpinejs'
 import autoComplete from '@tarekraafat/autocomplete.js'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '@tarekraafat/autocomplete.js/dist/css/autoComplete.02.css'
 import './style.css'
+
+Alpine.plugin(PineconeRouter)
 
 window.Alpine = Alpine
 
