@@ -16,12 +16,13 @@
     "bootstrap": "^5.2.3",
     "date-fns": "^2.29.3",
     "rollup-plugin-import-css": "^3.1.0",
-    "slugify": "^1.6.5"
+    "slugify": "^1.6.5",
+    "vite": "^4.3.5"
   },
   "scripts": {
-    "build": "rollup -c",
-    "watch": "rollup -c -w",
-    "dev": "npm-run-all --parallel start watch",
-    "start": "serve public"
+    "build": "vite build",
+    "watch": "vite build --watch",
+    "dev": "vite",
+    "preview": "vite preview"
   }
 }
