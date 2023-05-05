@@ -10,12 +10,17 @@
   # a base has not been set. This sample publishes the directory
   # located at the absolute path "root/project/build-output"
 
-  publish = "public/"
+  publish = "dist/"
 
   # Default build command.
-  command = "npm run build"
+  command = "vite build"
 
 [[redirects]]
   from = "/"
   to = "/2023"
   status = 302
+
+[[redirects]]
+  from = "/*/*"
+  to = "/"
+  status = 200
