@@ -13,19 +13,28 @@
 
     <title>Quan és festa? - Calendari Laboral Catalunya 2023</title>
     <link rel="stylesheet" href="../app.css" />
+		<script src="https://cdn.jsdelivr.net/npm/pinecone-router@2.x.x/dist/router.min.js"></script>
   </head>
   <body>
     <script src="../app.js" defer></script>
+		<div x-data="router()">
+			<template x-route="/" x-handler="home"></template>
+			<template
+				x-route="/:year/:place?"
+				x-handler="example"
+			></template>
+    </div>
+
+
     <main class="container col-lg-4 mx-auto px-4">
       <h1 class="pt-5">Quan és festa?</h1>
-      <h2>Calendari laboral de Catalunya 2023</h2>
+      <h2 x-data>Calendari laboral de Catalunya <span x-text="$store.holidays.year"></span></h2>
       <div class="px-4 py-4 mt-5 text-center mx-auto next" x-data>
         <div x-show="$store.holidays.next">
           <p class="lead">
             La propera festa laboral a
             <span class="fw-bold" x-text="$store.holidays.currentPlace"
-              >Catalunya</span
-            >
+              >Catalunya</span> el <span x-text="$store.holidays.year"></span>
             és el
           </p>
           <h1 class="display-5 fw-bold">
@@ -124,16 +133,16 @@
 
       <div class="my-5">
         <h3>Descàrregues</h3>
-        <table class="table mt-3">
+        <table class="table mt-3" x-data="calendar">
           <tbody>
               <tr>
-                <th scope="row">Festes laborals a Catalunya 2023</th>
-                <td><a href="/2023/data/festes_catalunya_2023.xlsx">Excel</a> (9.2 Kb)</td>
+                <th scope="row">Festes laborals a Catalunya <span x-text="$store.holidays.year"></span></th>
+                <td><a :href="'/' + $store.holidays.year + '/data/festes_catalunya_2023.xlsx'">Excel</a> (9.2 Kb)</td>
                 <td><a href="/2023/data/festes_catalunya_2023.csv">CSV</a> (0.5 Kb)</td>
                 <td><a href="/2023/data/festes_catalunya_2023.json">JSON</a> (0.9 Kb)</td>
               </tr>
               <tr>
-                <th scope="row">Festes locals a Catalunya 2023</th>
+                <th scope="row">Festes locals a Catalunya <span x-text="$store.holidays.year"></span></th>
                 <td><a href="/2023/data/festes_locals_catalunya_2023.xlsx">Excel</a> (50 Kb)</td>
                 <td><a href="/2023/data/festes_locals_catalunya_2023.csv">CSV</a> (59 Kb)</td>
                 <td><a href="/2023/data/festes_locals_catalunya_2023.json">JSON</a> (129 Kb)</td>
