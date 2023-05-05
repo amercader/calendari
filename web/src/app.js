@@ -32,6 +32,10 @@ const holidays = [
 const dayFormatter = new Intl.DateTimeFormat('ca', { month: 'long', day: 'numeric' })
 const weekDayFormatter = new Intl.DateTimeFormat('ca', { weekday: 'long' })
 
+const commonSlugify = function (text) {
+  return slugify(text.replace("'", '-'), { lower: true })
+}
+
 fetch('schema.jsonld')
   .then(response => response.text())
   .then(structuredDataText => {
@@ -70,12 +74,40 @@ document.addEventListener('alpine:init', () => {
           this.holidays.splice(i, 1)
         }
       }
+    },
+    updatePlace (place, dates) {
+      this.currentPlace = place
+      this.removeLocals()
+      const localDates = []
+      dates.forEach(d => {
+        const date = `${year}-${d.slice(0, 2)}-${d.slice(2, 4)}`
+        localDates.push(date)
+        this.add({ date, name: 'Festa local', scope: 'Local' })
+      })
+      document.dispatchEvent(new CustomEvent('new-local-dates', { detail: { dates: localDates, name } }))
     }
   }
   )
 
   holidays.forEach(h => Alpine.store('holidays').add(h))
 })
+
+Alpine.data('router', () => ({
+
+  main (context) {
+    Alpine.store('holidays').year = context.params.year
+    if (context.params.place) {
+      const slug = context.params.place
+      let place
+      window.localHolidays.some((p) => {
+        place = p
+        return commonSlugify(p.n, { lower: true }) === slug
+      })
+      Alpine.store('holidays').updatePlace(place.n, place.d)
+    }
+  }
+
+}))
 
 Alpine.data('search', () => ({
   alertOpen: false,
@@ -111,15 +143,7 @@ Alpine.data('search', () => ({
     }
     this.searchControl.input.value = name
 
-    Alpine.store('holidays').currentPlace = name
-    Alpine.store('holidays').removeLocals()
-    const localDates = []
-    dates.forEach(d => {
-      const date = `${year}-${d.slice(0, 2)}-${d.slice(2, 4)}`
-      localDates.push(date)
-      Alpine.store('holidays').add({ date, name: 'Festa local', scope: 'Local' })
-    })
-    document.dispatchEvent(new CustomEvent('new-local-dates', { detail: { dates: localDates, name } }))
+    Alpine.store('holidays').updatePlace(name, dates)
   },
 
   toggleAlert () {
@@ -162,7 +186,7 @@ Alpine.data('calendar', () => ({
     const blob = new Blob(localCalendar.map(l => l + '\r\n'), { type: 'text/calendar' })
     const url = URL.createObjectURL(blob)
     this.a.setAttribute('href', url)
-    this.a.setAttribute('download', `festes_${slugify(place, { replacement: '_', lower: true })}_${year}.ics`)
+    this.a.setAttribute('download', `festes_${commonSlugify(place, { replacement: '_', lower: true })}_${year}.ics`)
   }
 }))
 

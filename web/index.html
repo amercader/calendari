@@ -17,14 +17,10 @@
   </head>
   <body>
     <script src="../app.js" defer></script>
-		<div x-data="router()">
-			<template x-route="/" x-handler="home"></template>
-			<template
-				x-route="/:year/:place?"
-				x-handler="example"
-			></template>
-    </div>
 
+    <div x-data="router()">
+	  <template x-route="/:year/:place?" x-handler="main"></template>
+    </div>
 
     <main class="container col-lg-4 mx-auto px-4">
       <h1 class="pt-5">Quan és festa?</h1>
