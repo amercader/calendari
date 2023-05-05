@@ -7,7 +7,7 @@ import autoComplete from '@tarekraafat/autocomplete.js'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '@tarekraafat/autocomplete.js/dist/css/autoComplete.02.css'
-import './style.css'
+import './src/style.css'
 
 Alpine.plugin(PineconeRouter)
 
