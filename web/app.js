@@ -15,22 +15,25 @@ window.Alpine = Alpine
 
 const uuid = 'e11d0663-1ffd-4936-83d2-7fd6a2ccf874'
 const year = 2023
-const holidays = [
+const years = [2023]
 
-  { date: '2023-01-06', name: 'Reis', scope: 'Catalunya' },
-  { date: '2023-04-07', name: 'Divendres Sant', scope: 'Espanya' },
-  { date: '2023-04-10', name: 'Pasqua Florida', scope: 'Catalunya' },
-  { date: '2023-05-01', name: 'Festa del Treball', scope: 'Espanya' },
-  { date: '2023-06-24', name: 'Sant Joan', scope: 'Catalunya' },
-  { date: '2023-08-15', name: "L'Assumpció", scope: 'Espanya' },
-  { date: '2023-09-11', name: 'Diada Nacional de Catalunya', scope: 'Catalunya' },
-  { date: '2023-10-12', name: "Festa Nacional d'Espanya", scope: 'Espanya' },
-  { date: '2023-11-01', name: 'Tots Sants', scope: 'Espanya' },
-  { date: '2023-12-06', name: 'Dia de la Constitució', scope: 'Espanya' },
-  { date: '2023-12-08', name: 'La Immaculada', scope: 'Espanya' },
-  { date: '2023-12-25', name: 'Nadal', scope: 'Espanya' },
-  { date: '2023-12-26', name: 'Sant Esteve', scope: 'Catalunya' }
-]
+const holidays = {
+  2023: [
+    { date: '2023-01-06', name: 'Reis', scope: 'Catalunya' },
+    { date: '2023-04-07', name: 'Divendres Sant', scope: 'Espanya' },
+    { date: '2023-04-10', name: 'Pasqua Florida', scope: 'Catalunya' },
+    { date: '2023-05-01', name: 'Festa del Treball', scope: 'Espanya' },
+    { date: '2023-06-24', name: 'Sant Joan', scope: 'Catalunya' },
+    { date: '2023-08-15', name: "L'Assumpció", scope: 'Espanya' },
+    { date: '2023-09-11', name: 'Diada Nacional de Catalunya', scope: 'Catalunya' },
+    { date: '2023-10-12', name: "Festa Nacional d'Espanya", scope: 'Espanya' },
+    { date: '2023-11-01', name: 'Tots Sants', scope: 'Espanya' },
+    { date: '2023-12-06', name: 'Dia de la Constitució', scope: 'Espanya' },
+    { date: '2023-12-08', name: 'La Immaculada', scope: 'Espanya' },
+    { date: '2023-12-25', name: 'Nadal', scope: 'Espanya' },
+    { date: '2023-12-26', name: 'Sant Esteve', scope: 'Catalunya' }
+  ]
+}
 
 const dayFormatter = new Intl.DateTimeFormat('ca', { month: 'long', day: 'numeric' })
 const weekDayFormatter = new Intl.DateTimeFormat('ca', { weekday: 'long' })
@@ -39,7 +42,7 @@ const commonSlugify = function (text) {
   return slugify(text.replace("'", '-'), { lower: true })
 }
 
-fetch('schema.jsonld')
+fetch(`/data/${year}/schema.jsonld`)
   .then(response => response.text())
   .then(structuredDataText => {
     const script = document.createElement('script')
@@ -50,7 +53,9 @@ fetch('schema.jsonld')
 
 document.addEventListener('alpine:init', () => {
   Alpine.store('holidays', {
+    year,
     currentPlace: 'Catalunya',
+    pendingPlace: null,
     next: {},
     daysUntilNext: null,
     holidays: [],
@@ -92,13 +97,19 @@ document.addEventListener('alpine:init', () => {
   }
   )
 
-  holidays.forEach(h => Alpine.store('holidays').add(h))
+  holidays[Alpine.store('holidays').year].forEach(h => Alpine.store('holidays').add(h))
 })
 
 Alpine.data('router', () => ({
 
   main (context) {
-    Alpine.store('holidays').year = context.params.year
+    const inputYear = context.params.year
+    /*
+    if (!years.includes(inputYear) {
+
+    }
+    */
+    Alpine.store('holidays').year = inputYear
     if (context.params.place) {
       const slug = context.params.place
       let place
@@ -106,7 +117,7 @@ Alpine.data('router', () => ({
         place = p
         return commonSlugify(p.n, { lower: true }) === slug
       })
-      Alpine.store('holidays').updatePlace(place.n, place.d)
+      Alpine.store('holidays').pendingPlace = {name: place.n, dates: place.d}
     }
   }
 
@@ -160,13 +171,18 @@ Alpine.data('calendar', () => ({
   mainCalendar: null,
   localCalendar: null,
   init () {
-    fetch(`data/festes_catalunya_${year}.ics`)
+    fetch(`/data/${year}/festes_catalunya_${year}.ics`)
       .then((response) => response.text())
       .then((data) => {
         this.mainCalendar = data
+
+        document.addEventListener('new-local-dates', (e) => this.updateLocalCalendar(e.detail.dates, e.detail.name))
+        const pendingPlace = Alpine.store('holidays').pendingPlace
+        if (pendingPlace.name) {
+          Alpine.store('holidays').updatePlace(pendingPlace.name, pendingPlace.dates)
+        }
       })
 
-    document.addEventListener('new-local-dates', (e) => this.updateLocalCalendar(e.detail.dates, e.detail.name))
   },
   updateLocalCalendar (dates, place) {
     const localCalendar = this.mainCalendar.trim().split('\r\n')

@@ -19,6 +19,8 @@
     <script type="module" src="/app.js"></script>
 
     <div x-data="router()">
+
+	  <template x-route="/data/:path?"></template>
 	  <template x-route="/:year/:place?" x-handler="main"></template>
     </div>
 
@@ -118,9 +120,10 @@
           <div class="d-grid gap-1 d-sm-flex justify-content-sm-center">
             <a
               id="downloadCalendar"
-              href="data/festes_catalunya_2023.ics"
+              :href="'/data/' + $store.holidays.year + '/festes_catalunya_' + $store.holidays.year + '.ics'"
               class="btn btn-success btn-lg px-4 gap-3"
               role="button"
+              native
               >Descarrega calendari (ICS)</a
             >
           </div>
@@ -133,15 +136,15 @@
           <tbody>
               <tr>
                 <th scope="row">Festes laborals a Catalunya <span x-text="$store.holidays.year"></span></th>
-                <td><a :href="'/' + $store.holidays.year + '/data/festes_catalunya_2023.xlsx'">Excel</a> (9.2 Kb)</td>
-                <td><a href="/2023/data/festes_catalunya_2023.csv">CSV</a> (0.5 Kb)</td>
-                <td><a href="/2023/data/festes_catalunya_2023.json">JSON</a> (0.9 Kb)</td>
+                <td><a :href="'/data/' + $store.holidays.year + '/festes_catalunya_' + $store.holidays.year + '.xlsx'" native>Excel</a> (9.2 Kb)</td>
+                <td><a :href="'/data/' + $store.holidays.year + '/festes_catalunya_' + $store.holidays.year + '.csv'" native>CSV</a> (0.5 Kb)</td>
+                <td><a :href="'/data/' + $store.holidays.year + '/festes_catalunya_' + $store.holidays.year + '.json'" native>JSON</a> (0.9 Kb)</td>
               </tr>
               <tr>
                 <th scope="row">Festes locals a Catalunya <span x-text="$store.holidays.year"></span></th>
-                <td><a href="/2023/data/festes_locals_catalunya_2023.xlsx">Excel</a> (50 Kb)</td>
-                <td><a href="/2023/data/festes_locals_catalunya_2023.csv">CSV</a> (59 Kb)</td>
-                <td><a href="/2023/data/festes_locals_catalunya_2023.json">JSON</a> (129 Kb)</td>
+                <td><a :href="'/data/' + $store.holidays.year + '/festes_locals_catalunya_' + $store.holidays.year + '.xlsx'" native>Excel</a> (50 Kb)</td>
+                <td><a :href="'/data/' + $store.holidays.year + '/festes_locals_catalunya_' + $store.holidays.year + '.csv'" native>CSV</a> (59 Kb)</td>
+                <td><a :href="'/data/' + $store.holidays.year + '/festes_locals_catalunya_' + $store.holidays.year + '.json'" native>JSON</a> (129 Kb)</td>
               </tr>
           </tbody>
         </table>
@@ -153,6 +156,6 @@
       <p>Fet per <a href="https://amercader.net">amercader</a>. Codi font disponible a <a href="https://github.com/amercader/calendari">GitHub</a>.
     </main>
 
-    <script src="/2023/data/web_locals_2023.js"></script>
+    <script :src="'/data/' + $store.holidays.year + '/web_locals_' + $store.holidays.year + '.js'"></script>
   </body>
 </html>
