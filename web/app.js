@@ -104,21 +104,48 @@ Alpine.data('router', () => ({
 
   main (context) {
     const inputYear = context.params.year
-    /*
-    if (!years.includes(inputYear) {
 
+    if (!years.includes(parseInt(inputYear))) {
+      document.dispatchEvent(
+        new CustomEvent(
+          'show-message', { detail: { message: "No tenim les dates d'aquest any! T'ensenyem l'actual." } }))
+      Alpine.store('holidays').year = years[0]
+    } else {
+      Alpine.store('holidays').year = inputYear
     }
-    */
-    Alpine.store('holidays').year = inputYear
     if (context.params.place) {
       const slug = context.params.place
       let place
+      let match = false
       window.localHolidays.some((p) => {
         place = p
-        return commonSlugify(p.n, { lower: true }) === slug
+        match = commonSlugify(p.n, { lower: true }) === slug
+        return match
       })
-      Alpine.store('holidays').pendingPlace = {name: place.n, dates: place.d}
+      if (match) {
+        Alpine.store('holidays').pendingPlace = { name: place.n, dates: place.d }
+      } else {
+        document.dispatchEvent(
+          new CustomEvent(
+            'show-message', { detail: { message: "Lloc desconegut! T'ensenyem les fetes a tot Catalunya." } }))
+      }
     }
+  }
+
+}))
+
+Alpine.data('message', () => ({
+  text: 'un error!! :(',
+  alertOpen: false,
+  init () {
+    document.addEventListener('show-message', (e) => this.show(e.detail.message))
+  },
+  show (message) {
+    this.text = message
+    this.alertOpen = true
+  },
+  toggleAlert () {
+    this.alertOpen = !this.alertOpen
   }
 
 }))
@@ -182,7 +209,6 @@ Alpine.data('calendar', () => ({
           Alpine.store('holidays').updatePlace(pendingPlace.name, pendingPlace.dates)
         }
       })
-
   },
   updateLocalCalendar (dates, place) {
     const localCalendar = this.mainCalendar.trim().split('\r\n')

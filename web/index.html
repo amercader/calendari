@@ -27,7 +27,23 @@
     <main class="container col-lg-4 mx-auto px-4">
       <h1 class="pt-5">Quan és festa?</h1>
       <h2 x-data>Calendari laboral de Catalunya <span x-text="$store.holidays.year"></span></h2>
-      <div class="px-4 py-4 mt-5 text-center mx-auto next" x-data>
+      <div
+        class="alert alert-danger alert-dismissible mt-5"
+        x-data="message"
+        role="alert"
+        x-show="alertOpen"
+        x-transition
+      >
+        <span x-text="text"></span>
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          x-on:click="toggleAlert"
+        ></button>
+      </div>
+
+      <div class="px-4 py-4 text-center mx-auto mt-5 next" x-data>
         <div x-show="$store.holidays.next">
           <p class="lead">
             La propera festa laboral a
