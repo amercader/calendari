@@ -56,6 +56,7 @@ document.addEventListener('alpine:init', () => {
     year,
     currentPlace: 'Catalunya',
     pendingPlace: null,
+    calendarReady: false,
     next: {},
     daysUntilNext: null,
     holidays: [],
@@ -123,7 +124,11 @@ Alpine.data('router', () => ({
         return match
       })
       if (match) {
-        Alpine.store('holidays').pendingPlace = { name: place.n, dates: place.d }
+        if (!Alpine.store('holidays').calendarReady) {
+          Alpine.store('holidays').pendingPlace = { name: place.n, dates: place.d }
+        } else {
+          Alpine.store('holidays').updatePlace(place.n, place.d)
+        }
       } else {
         document.dispatchEvent(
           new CustomEvent(
@@ -184,6 +189,8 @@ Alpine.data('search', () => ({
     }
     this.searchControl.input.value = name
 
+    history.pushState({}, '', `/${year}/` + commonSlugify(name, { lower: true }))
+
     Alpine.store('holidays').updatePlace(name, dates)
   },
 
@@ -204,6 +211,7 @@ Alpine.data('calendar', () => ({
         this.mainCalendar = data
 
         document.addEventListener('new-local-dates', (e) => this.updateLocalCalendar(e.detail.dates, e.detail.place))
+        Alpine.store('holidays').calendarReady = true
         const pendingPlace = Alpine.store('holidays').pendingPlace
         if (pendingPlace && pendingPlace.name) {
           Alpine.store('holidays').updatePlace(pendingPlace.name, pendingPlace.dates)
