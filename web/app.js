@@ -92,7 +92,7 @@ document.addEventListener('alpine:init', () => {
         localDates.push(date)
         this.add({ date, name: 'Festa local', scope: 'Local' })
       })
-      document.dispatchEvent(new CustomEvent('new-local-dates', { detail: { dates: localDates, name } }))
+      document.dispatchEvent(new CustomEvent('new-local-dates', { detail: { dates: localDates, place } }))
     }
   }
   )
@@ -176,9 +176,9 @@ Alpine.data('calendar', () => ({
       .then((data) => {
         this.mainCalendar = data
 
-        document.addEventListener('new-local-dates', (e) => this.updateLocalCalendar(e.detail.dates, e.detail.name))
+        document.addEventListener('new-local-dates', (e) => this.updateLocalCalendar(e.detail.dates, e.detail.place))
         const pendingPlace = Alpine.store('holidays').pendingPlace
-        if (pendingPlace.name) {
+        if (pendingPlace && pendingPlace.name) {
           Alpine.store('holidays').updatePlace(pendingPlace.name, pendingPlace.dates)
         }
       })
