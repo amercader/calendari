@@ -25,7 +25,10 @@
     </div>
 
     <main class="container col-xl-6 mx-auto px-4">
-      <h1 x-data class="pt-5">Quan és festa a <span x-text="$store.holidays.currentPlace">Catalunya</span>?</h1>
+      <h1 x-data class="pt-5">
+        Quan és festa
+        <span x-html="$store.holidays.currentPlaceParsed">a Catalunya</span>?
+      </h1>
       <h2 x-data>Calendari laboral <span x-text="$store.holidays.year"></span></h2>
       <div
         class="alert alert-danger alert-dismissible mt-5"
@@ -46,9 +49,9 @@
       <div class="px-4 py-4 text-center mx-auto mt-5 next" x-data>
         <div x-show="$store.holidays.next">
           <p class="lead">
-            La propera festa laboral a
-            <span class="fw-bold" x-text="$store.holidays.currentPlace"
-              >Catalunya</span> el <span x-text="$store.holidays.year"></span>
+            La propera festa laboral
+            <span x-html="$store.holidays.currentPlaceParsed"
+              >a Catalunya</span> el <span x-text="$store.holidays.year"></span>
             és el
           </p>
           <h1 class="display-5 fw-bold">
@@ -129,8 +132,8 @@
       <div class="px-4 py-3 my-3 text-center" x-data="calendar">
         <div class="col-lg-10 mx-auto">
           <p class="lead mb-4">
-            Descarrega les festes laborals a
-            <span class="fw-bold" x-text="$store.holidays.currentPlace">Catalunya</span> per
+            Descarrega les festes laborals
+            <span x-html="$store.holidays.currentPlaceParsed">Catalunya</span> per
             afegir-les al teu calendari (Google Calendar, iPhone, Outlook, etc).
           </p>
           <div class="d-grid gap-1 d-sm-flex justify-content-sm-center">

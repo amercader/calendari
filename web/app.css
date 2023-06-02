@@ -106,6 +106,10 @@ h1 {
   font-weight: inherit;
 }
 
+.lead .place-name {
+  font-weight: bold;
+}
+
 .next {
   color: white;
   background-color: #2E633A;

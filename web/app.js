@@ -94,9 +94,21 @@ document.addEventListener('alpine:init', () => {
         this.add({ date, name: 'Festa local', scope: 'Local' })
       })
       document.dispatchEvent(new CustomEvent('new-local-dates', { detail: { dates: localDates, place } }))
+    },
+    get currentPlaceParsed () {
+      let prepo = 'a'
+      let name = this.currentPlace
+      if (this.currentPlace.startsWith('el ')) {
+        prepo = 'al '
+        name = name.replace(/el /, '')
+      } else if (this.currentPlace.startsWith('els ')) {
+        prepo = 'als '
+        name = name.replace(/els /, '')
+      }
+      return `${prepo} <span class="place-name">${name}</span>`
     }
-  }
-  )
+
+  })
 
   holidays[Alpine.store('holidays').year].forEach(h => Alpine.store('holidays').add(h))
 })
