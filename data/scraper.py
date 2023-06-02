@@ -18,13 +18,15 @@ from icalendar import Calendar, Event
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from tqdm.auto import tqdm
+from slugify import slugify
 
 YEAR = 2023
 BASE_URL = "https://ocupacio.extranet.gencat.cat"
 BASE_ID = "e11d0663-1ffd-4936-83d2-7fd6a2ccf874"
 
 DATA_DIR = "."
-OUTPUT_DIR = "../web/public/data"
+PUBLIC_DIR = "../web/public"
+OUTPUT_DIR = f"{PUBLIC_DIR}/data"
 
 HOLIDAY_TYPE_CLASSES = {
     "dia2": "Estatal",
@@ -232,6 +234,32 @@ def _create_web_local_files():
     wb.save(f"{OUTPUT_DIR}/festes_locals_catalunya_{YEAR}.xlsx")
 
 
+def create_sitemap():
+
+    base = "https://quanesfesta.cat"
+    year = "2023"
+
+    out = [
+        base,
+        f"{base}/{year}",
+    ]
+
+    for ext in ["xlsx", "csv", "json"]:
+        out.append(f"{base}/data/{year}/festes_catalunya_{year}.{ext}")
+        out.append(f"{base}/data/{year}/festes_locals_catalunya_{year}.{ext}")
+
+    input_file = f"{DATA_DIR}/festes_locals_catalunya_{YEAR}.csv"
+    with open(input_file, newline="") as f:
+        reader = csv.DictReader(f)
+        rows = [row for row in reader]
+
+    for row in rows:
+        out.append(f'{base}/{year}/{slugify(parse_name(row["nom"]))}')
+
+    with open(f"{PUBLIC_DIR}/sitemap.txt", "w") as f:
+        f.write("\n".join(out))
+
+
 def create_web_files():
 
     _create_web_common_files()
@@ -239,6 +267,8 @@ def create_web_files():
     _create_web_local_files()
 
     create_ics_file()
+
+    create_sitemap()
 
 
 def create_ics_file():
@@ -267,7 +297,14 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "command",
-        choices=["place", "all-places", "places-ids", "web-files", "calendar"],
+        choices=[
+            "place",
+            "all-places",
+            "places-ids",
+            "web-files",
+            "calendar",
+            "sitemap",
+        ],
         help="""Action to perform.""",
     )
     parser.add_argument(
@@ -311,3 +348,6 @@ if __name__ == "__main__":
 
     elif args.command == "calendar":
         create_ics_file()
+
+    elif args.command == "sitemap":
+        create_sitemap()
