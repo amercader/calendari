@@ -25,8 +25,8 @@
     </div>
 
     <main class="container col-xl-6 mx-auto px-4">
-      <h1 class="pt-5">Quan és festa?</h1>
-      <h2 x-data>Calendari laboral de Catalunya <span x-text="$store.holidays.year"></span></h2>
+      <h1 x-data class="pt-5">Quan és festa a <span x-text="$store.holidays.currentPlace">Catalunya</span>?</h1>
+      <h2 x-data>Calendari laboral <span x-text="$store.holidays.year"></span></h2>
       <div
         class="alert alert-danger alert-dismissible mt-5"
         x-data="message"
