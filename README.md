@@ -15,6 +15,14 @@ Per veure les comandes disponibles:
 
     python scraper.py --help
 
+#### Afegir les festes d'un any
+
+1. Actualizar la variable `YEAR` a `scraper.py`
+2. Crear manualment l'arxiu `festes_catalunya_{year}.csv`
+3. Executar `python scraper.py places-ids` per obtenir totes les localitats
+4. Executar `python scraper.py all-places` per obtenir les festes
+
+
 ### Lloc web
 
 El directori `web` conté l'aplicació web. Per desenvolupar-la localment:
@@ -41,6 +49,13 @@ Install requirements (in your own virtualenv):
 To show available commands:
 
     python scraper.py --help
+
+#### Adding a new year holidays
+
+1. Update the `YEAR` variable in `scraper.py`
+2. Manually create the file `festes_catalunya_{year}.csv`
+3. Run `python scraper.py places-ids` to get the updated locations
+4. Run `python scraper.py all-places` to get all holidays
 
 ### Web app
 

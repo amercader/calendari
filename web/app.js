@@ -14,8 +14,8 @@ Alpine.plugin(PineconeRouter)
 window.Alpine = Alpine
 
 const uuid = 'e11d0663-1ffd-4936-83d2-7fd6a2ccf874'
-const year = 2023
-const years = [2023]
+const year = 2024
+const years = [2023, 2024]
 
 const holidays = {
   2023: [
