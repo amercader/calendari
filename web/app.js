@@ -32,6 +32,21 @@ const holidays = {
     { date: '2023-12-08', name: 'La Immaculada', scope: 'Espanya' },
     { date: '2023-12-25', name: 'Nadal', scope: 'Espanya' },
     { date: '2023-12-26', name: 'Sant Esteve', scope: 'Catalunya' }
+  ],
+  2024: [
+    { date: '2024-01-01', name: "Cap d'Any", scope: 'Espanya' },
+    { date: '2024-01-06', name: 'Reis', scope: 'Cataluya' },
+    { date: '2024-03-29', name: 'Divendres Sant', scope: 'Espanya' },
+    { date: '2024-04-01', name: 'Pasqua Florida', scope: 'Catalunya' },
+    { date: '2024-05-01', name: 'Festa del Treball', scope: 'Espanya' },
+    { date: '2024-06-24', name: 'Sant Joan', scope: 'Catalunya' },
+    { date: '2024-08-15', name: "L'Assumpció", scope: 'Espanya' },
+    { date: '2024-09-11', name: 'Diada Nacional de Catalunya', scope: 'Catalunya' },
+    { date: '2024-10-12', name: "Festa Nacional d'Espanya", scope: 'Espanya' },
+    { date: '2024-11-01', name: 'Tots Sants', scope: 'Espanya' },
+    { date: '2024-12-06', name: 'Dia de la Constitució', scope: 'Espanya' },
+    { date: '2024-12-25', name: 'Nadal', scope: 'Espanya' },
+    { date: '2024-12-26', name: 'Sant Esteve', scope: 'Catalunya' }
   ]
 }
 
