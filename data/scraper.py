@@ -260,6 +260,104 @@ def create_sitemap():
         f.write("\n".join(out))
 
 
+def create_schema_org():
+    input_file = f"{DATA_DIR}/festes_catalunya_{YEAR}.csv"
+    with open(input_file, newline="") as f:
+        reader = csv.DictReader(f)
+        rows = [row for row in reader]
+
+    out = []
+
+    # Event
+    for row in rows:
+        date = datetime.datetime.strptime(row["data"], "%Y-%m-%d")
+        date_end = (date + datetime.timedelta(days=1)).strftime("%Y-%m-%d")
+
+        out.append(
+            {
+                "@context": "http://schema.org",
+                "@type": "Event",
+                "startDate": row["data"],
+                "endDate": date_end,
+                "name": row["nom"],
+                "location": {
+                    "@type": "Place",
+                    "name": "Catalonia",
+                    "address": {"addressRegion": "Catalonia"},
+                },
+            }
+        )
+
+    # Dataset
+    out.extend(
+        [
+            {
+                "@context": "http://schema.org",
+                "@type": "Dataset",
+                "name": f"Festes laborals a Catalunya {YEAR}",
+                "description": f"Public holidays in Catalonia for {YEAR}, including date, name and scope (national or regional)\nFestes laborals a Catalunya {YEAR}, inclou la data, el nom de la festa i l'àmbit (estatal o autonòmic)",
+                "temporalCoverage": f"{YEAR}",
+                "spatialCoverage": "Catalunya",
+                "license": {
+                    "@type": "CreativeWork",
+                    "name": "Llicència oberta d'ús d'informació - Catalunya",
+                    "url": "https://governobert.gencat.cat/ca/dades_obertes/llicencia-oberta-informacio-catalunya/",
+                },
+                "distribution": [
+                    {
+                        "@type": "DataDownload",
+                        "contentUrl": f"https://quanesfesta.cat/{YEAR}/data/festes_catalunya_{YEAR}.xlsx",
+                        "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    },
+                    {
+                        "@type": "DataDownload",
+                        "contentUrl": f"https://quanesfesta.cat/{YEAR}/data/festes_catalunya_{YEAR}.csv",
+                        "encodingFormat": "application/csv",
+                    },
+                    {
+                        "@type": "DataDownload",
+                        "contentUrl": f"https://quanesfesta.cat/{YEAR}/data/festes_catalunya_{YEAR}.json",
+                        "encodingFormat": "application/json",
+                    },
+                ],
+            },
+            {
+                "@context": "http://schema.org",
+                "@type": "Dataset",
+                "name": f"Festes locals a Catalunya {YEAR}",
+                "description": f"Local public holidays in Catalonia for {YEAR}, including date and location\nFestes laborals locals a Catalunya {YEAR}, inclou les dates i el nom de la localitat",
+                "temporalCoverage": f"{YEAR}",
+                "spatialCoverage": "Catalunya",
+                "license": {
+                    "@type": "CreativeWork",
+                    "name": "Llicència oberta d'ús d'informació - Catalunya",
+                    "url": "https://governobert.gencat.cat/ca/dades_obertes/llicencia-oberta-informacio-catalunya/",
+                },
+                "distribution": [
+                    {
+                        "@type": "DataDownload",
+                        "contentUrl": f"https://quanesfesta.cat/{YEAR}/data/festes_locals_catalunya_{YEAR}.xlsx",
+                        "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    },
+                    {
+                        "@type": "DataDownload",
+                        "contentUrl": f"https://quanesfesta.cat/{YEAR}/data/festes_locals_catalunya_{YEAR}.csv",
+                        "encodingFormat": "application/csv",
+                    },
+                    {
+                        "@type": "DataDownload",
+                        "contentUrl": f"https://quanesfesta.cat/{YEAR}/data/festes_locals_catalunya_{YEAR}.json",
+                        "encodingFormat": "application/json",
+                    },
+                ],
+            },
+        ]
+    )
+
+    with open(f"{OUTPUT_DIR}/schema.jsonld", "w") as f:
+        json.dump(out, f, indent=4)
+
+
 def create_web_files():
 
     Path(OUTPUT_DIR).mkdir(exist_ok=True)
@@ -271,6 +369,8 @@ def create_web_files():
     create_ics_file()
 
     create_sitemap()
+
+    create_schema_org()
 
 
 def create_ics_file():
@@ -306,6 +406,7 @@ if __name__ == "__main__":
             "web-files",
             "calendar",
             "sitemap",
+            "schemaorg",
         ],
         help="""Action to perform.""",
     )
@@ -353,3 +454,6 @@ if __name__ == "__main__":
 
     elif args.command == "sitemap":
         create_sitemap()
+
+    elif args.command == "schemaorg":
+        create_schema_org()
