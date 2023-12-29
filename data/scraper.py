@@ -4,6 +4,7 @@ import argparse
 import csv
 import datetime
 import json
+from pathlib import Path
 import shutil
 import sys
 import time
@@ -26,7 +27,7 @@ BASE_ID = "e11d0663-1ffd-4936-83d2-7fd6a2ccf874"
 
 DATA_DIR = "."
 PUBLIC_DIR = "../web/public"
-OUTPUT_DIR = f"{PUBLIC_DIR}/data"
+OUTPUT_DIR = f"{PUBLIC_DIR}/data/{YEAR}"
 
 HOLIDAY_TYPE_CLASSES = {
     "dia2": "Estatal",
@@ -261,6 +262,8 @@ def create_sitemap():
 
 
 def create_web_files():
+
+    Path(OUTPUT_DIR).mkdir(exist_ok=True)
 
     _create_web_common_files()
 
