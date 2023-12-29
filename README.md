@@ -21,6 +21,10 @@ Per veure les comandes disponibles:
 2. Crear manualment l'arxiu `festes_catalunya_{year}.csv`
 3. Executar `python scraper.py places-ids` per obtenir totes les localitats
 4. Executar `python scraper.py all-places` per obtenir les festes
+5. Executar `python scraper.py web-files` per obtenir els nous arxius de producció
+6. Actualitzar les constants `year`, `years` i `holidays` a l'arxius `app.js` TODO: automatitzar
+7. Reemplaçar l'any anterior pel nou any a l'arxiu `index.html` TODO: automatitzar
+8. Actualitzar redirecció a l'arxiu `netlify.toml`
 
 
 ### Lloc web
@@ -56,6 +60,11 @@ To show available commands:
 2. Manually create the file `festes_catalunya_{year}.csv`
 3. Run `python scraper.py places-ids` to get the updated locations
 4. Run `python scraper.py all-places` to get all holidays
+5. Run `python scraper.py web-files` to get the new production files
+6. Update the constants `year`, `years` and `holidays` in file `app.js` TODO: automate
+7. Replace all occurences of the previous year with the new one in file `index.html` TODO: automate
+8. Update redirect in `netlify.toml`
+
 
 ### Web app
 
