@@ -1,0 +1,244 @@
+[
+    {
+        "@context": "http://schema.org",
+        "@type": "Event",
+        "startDate": "2024-01-01",
+        "endDate": "2024-01-02",
+        "name": "Cap d'Any",
+        "location": {
+            "@type": "Place",
+            "name": "Catalonia",
+            "address": {
+                "addressRegion": "Catalonia"
+            }
+        }
+    },
+    {
+        "@context": "http://schema.org",
+        "@type": "Event",
+        "startDate": "2024-01-06",
+        "endDate": "2024-01-07",
+        "name": "Reis",
+        "location": {
+            "@type": "Place",
+            "name": "Catalonia",
+            "address": {
+                "addressRegion": "Catalonia"
+            }
+        }
+    },
+    {
+        "@context": "http://schema.org",
+        "@type": "Event",
+        "startDate": "2024-03-29",
+        "endDate": "2024-03-30",
+        "name": "Divendres Sant",
+        "location": {
+            "@type": "Place",
+            "name": "Catalonia",
+            "address": {
+                "addressRegion": "Catalonia"
+            }
+        }
+    },
+    {
+        "@context": "http://schema.org",
+        "@type": "Event",
+        "startDate": "2024-04-01",
+        "endDate": "2024-04-02",
+        "name": "Pasqua Florida",
+        "location": {
+            "@type": "Place",
+            "name": "Catalonia",
+            "address": {
+                "addressRegion": "Catalonia"
+            }
+        }
+    },
+    {
+        "@context": "http://schema.org",
+        "@type": "Event",
+        "startDate": "2024-05-01",
+        "endDate": "2024-05-02",
+        "name": "Festa del Treball",
+        "location": {
+            "@type": "Place",
+            "name": "Catalonia",
+            "address": {
+                "addressRegion": "Catalonia"
+            }
+        }
+    },
+    {
+        "@context": "http://schema.org",
+        "@type": "Event",
+        "startDate": "2024-06-24",
+        "endDate": "2024-06-25",
+        "name": "Sant Joan",
+        "location": {
+            "@type": "Place",
+            "name": "Catalonia",
+            "address": {
+                "addressRegion": "Catalonia"
+            }
+        }
+    },
+    {
+        "@context": "http://schema.org",
+        "@type": "Event",
+        "startDate": "2024-08-15",
+        "endDate": "2024-08-16",
+        "name": "L'Assumpci\u00f3",
+        "location": {
+            "@type": "Place",
+            "name": "Catalonia",
+            "address": {
+                "addressRegion": "Catalonia"
+            }
+        }
+    },
+    {
+        "@context": "http://schema.org",
+        "@type": "Event",
+        "startDate": "2024-09-11",
+        "endDate": "2024-09-12",
+        "name": "Diada Nacional de Catalunya",
+        "location": {
+            "@type": "Place",
+            "name": "Catalonia",
+            "address": {
+                "addressRegion": "Catalonia"
+            }
+        }
+    },
+    {
+        "@context": "http://schema.org",
+        "@type": "Event",
+        "startDate": "2024-10-12",
+        "endDate": "2024-10-13",
+        "name": "Festa Nacional d'Espanya",
+        "location": {
+            "@type": "Place",
+            "name": "Catalonia",
+            "address": {
+                "addressRegion": "Catalonia"
+            }
+        }
+    },
+    {
+        "@context": "http://schema.org",
+        "@type": "Event",
+        "startDate": "2024-11-01",
+        "endDate": "2024-11-02",
+        "name": "Tots Sants",
+        "location": {
+            "@type": "Place",
+            "name": "Catalonia",
+            "address": {
+                "addressRegion": "Catalonia"
+            }
+        }
+    },
+    {
+        "@context": "http://schema.org",
+        "@type": "Event",
+        "startDate": "2024-12-06",
+        "endDate": "2024-12-07",
+        "name": "Dia de la Constituci\u00f3",
+        "location": {
+            "@type": "Place",
+            "name": "Catalonia",
+            "address": {
+                "addressRegion": "Catalonia"
+            }
+        }
+    },
+    {
+        "@context": "http://schema.org",
+        "@type": "Event",
+        "startDate": "2024-12-25",
+        "endDate": "2024-12-26",
+        "name": "Nadal",
+        "location": {
+            "@type": "Place",
+            "name": "Catalonia",
+            "address": {
+                "addressRegion": "Catalonia"
+            }
+        }
+    },
+    {
+        "@context": "http://schema.org",
+        "@type": "Event",
+        "startDate": "2024-12-26",
+        "endDate": "2024-12-27",
+        "name": "Sant Esteve",
+        "location": {
+            "@type": "Place",
+            "name": "Catalonia",
+            "address": {
+                "addressRegion": "Catalonia"
+            }
+        }
+    },
+    {
+        "@context": "http://schema.org",
+        "@type": "Dataset",
+        "name": "Festes laborals a Catalunya 2024",
+        "description": "Public holidays in Catalonia for 2024, including date, name and scope (national or regional)\nFestes laborals a Catalunya 2024, inclou la data, el nom de la festa i l'\u00e0mbit (estatal o auton\u00f2mic)",
+        "temporalCoverage": "2024",
+        "spatialCoverage": "Catalunya",
+        "license": {
+            "@type": "CreativeWork",
+            "name": "Llic\u00e8ncia oberta d'\u00fas d'informaci\u00f3 - Catalunya",
+            "url": "https://governobert.gencat.cat/ca/dades_obertes/llicencia-oberta-informacio-catalunya/"
+        },
+        "distribution": [
+            {
+                "@type": "DataDownload",
+                "contentUrl": "https://quanesfesta.cat/2024/data/festes_catalunya_2024.xlsx",
+                "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            },
+            {
+                "@type": "DataDownload",
+                "contentUrl": "https://quanesfesta.cat/2024/data/festes_catalunya_2024.csv",
+                "encodingFormat": "application/csv"
+            },
+            {
+                "@type": "DataDownload",
+                "contentUrl": "https://quanesfesta.cat/2024/data/festes_catalunya_2024.json",
+                "encodingFormat": "application/json"
+            }
+        ]
+    },
+    {
+        "@context": "http://schema.org",
+        "@type": "Dataset",
+        "name": "Festes locals a Catalunya 2024",
+        "description": "Local public holidays in Catalonia for 2024, including date and location\nFestes laborals locals a Catalunya 2024, inclou les dates i el nom de la localitat",
+        "temporalCoverage": "2024",
+        "spatialCoverage": "Catalunya",
+        "license": {
+            "@type": "CreativeWork",
+            "name": "Llic\u00e8ncia oberta d'\u00fas d'informaci\u00f3 - Catalunya",
+            "url": "https://governobert.gencat.cat/ca/dades_obertes/llicencia-oberta-informacio-catalunya/"
+        },
+        "distribution": [
+            {
+                "@type": "DataDownload",
+                "contentUrl": "https://quanesfesta.cat/2024/data/festes_locals_catalunya_2024.xlsx",
+                "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            },
+            {
+                "@type": "DataDownload",
+                "contentUrl": "https://quanesfesta.cat/2024/data/festes_locals_catalunya_2024.csv",
+                "encodingFormat": "application/csv"
+            },
+            {
+                "@type": "DataDownload",
+                "contentUrl": "https://quanesfesta.cat/2024/data/festes_locals_catalunya_2024.json",
+                "encodingFormat": "application/json"
+            }
+        ]
+    }
+]
