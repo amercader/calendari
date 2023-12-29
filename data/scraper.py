@@ -238,16 +238,15 @@ def _create_web_local_files():
 def create_sitemap():
 
     base = "https://quanesfesta.cat"
-    year = "2023"
 
     out = [
         base,
-        f"{base}/{year}",
+        f"{base}/{YEAR}",
     ]
 
     for ext in ["xlsx", "csv", "json"]:
-        out.append(f"{base}/data/{year}/festes_catalunya_{year}.{ext}")
-        out.append(f"{base}/data/{year}/festes_locals_catalunya_{year}.{ext}")
+        out.append(f"{base}/data/{YEAR}/festes_catalunya_{YEAR}.{ext}")
+        out.append(f"{base}/data/{YEAR}/festes_locals_catalunya_{YEAR}.{ext}")
 
     input_file = f"{DATA_DIR}/festes_locals_catalunya_{YEAR}.csv"
     with open(input_file, newline="") as f:
@@ -255,7 +254,7 @@ def create_sitemap():
         rows = [row for row in reader]
 
     for row in rows:
-        out.append(f'{base}/{year}/{slugify(parse_name(row["nom"]))}')
+        out.append(f'{base}/{YEAR}/{slugify(parse_name(row["nom"]))}')
 
     with open(f"{PUBLIC_DIR}/sitemap.txt", "w") as f:
         f.write("\n".join(out))
