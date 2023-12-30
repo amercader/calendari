@@ -35,7 +35,7 @@ const holidays = {
   ],
   2024: [
     { date: '2024-01-01', name: "Cap d'Any", scope: 'Espanya' },
-    { date: '2024-01-06', name: 'Reis', scope: 'Cataluya' },
+    { date: '2024-01-06', name: 'Reis', scope: 'Catalunya' },
     { date: '2024-03-29', name: 'Divendres Sant', scope: 'Espanya' },
     { date: '2024-04-01', name: 'Pasqua Florida', scope: 'Catalunya' },
     { date: '2024-05-01', name: 'Festa del Treball', scope: 'Espanya' },
