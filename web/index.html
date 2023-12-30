@@ -47,7 +47,7 @@
       </div>
 
       <div class="px-4 py-4 text-center mx-auto mt-5 next" x-data>
-        <div x-show="$store.holidays.next">
+        <div x-show="$store.holidays.next" x-if="$store.holidays.next" >
           <p class="lead">
             La propera festa laboral
             <span x-html="$store.holidays.currentPlaceParsed"
@@ -55,12 +55,12 @@
             és el
           </p>
           <h1 class="display-5 fw-bold">
-            <span x-text="$store.holidays.next.localeDate"></span>
+            <span x-text="($store.holidays.next) ? $store.holidays.next.localeDate : ''"></span>
             <span class="next-week-day"
-              >(<span x-text="$store.holidays.next.weekDay"></span>)</span
+              >(<span x-text="($store.holidays.next) ? $store.holidays.next.weekDay : ''"></span>)</span
             >
           </h1>
-          <h2 x-text="$store.holidays.next.name"></h2>
+          <h2 x-text="($store.holidays.next) ? $store.holidays.next.name: ''"></h2>
           <p class="pt-2 mb-1">
             Falten <span x-text="$store.holidays.daysUntilNext"></span> dies
           </p>
