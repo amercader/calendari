@@ -203,23 +203,35 @@ def _create_web_local_files():
         rows = [row for row in reader]
 
     # Web JS
-    items = [
-        {
-            "n": parse_name(row["nom"]),
-            "d": [
-                row["festa1"].replace(f"{YEAR}", "").replace("-", ""),
-                row["festa2"].replace(f"{YEAR}", "").replace("-", ""),
-            ]
-            if row["festa1"]
-            else None,
-        }
-        for row in rows
-    ]
+    common = get_common_holidays()
+    common_web = []
+    for holiday in common:
+        common_web.append(
+            {
+                "date": holiday["data"],
+                "name": holiday["nom"],
+                "scope": holiday["ambit"],
+            }
+        )
 
-    out = f"window.localHolidays = {json.dumps(items)}"
+    data = {
+        "common": common_web,
+        "local": [
+            {
+                "n": parse_name(row["nom"]),
+                "d": [
+                    row["festa1"].replace(f"{YEAR}", "").replace("-", ""),
+                    row["festa2"].replace(f"{YEAR}", "").replace("-", ""),
+                ]
+                if row["festa1"]
+                else None,
+            }
+            for row in rows
+        ],
+    }
 
-    with open(f"{OUTPUT_DIR}/web_locals_{YEAR}.js", "w") as f:
-        f.write(out)
+    with open(f"{OUTPUT_DIR}/web_{YEAR}.json", "w") as f:
+        json.dump(data, f)
 
     # JSON download
     with open(f"{OUTPUT_DIR}/festes_locals_catalunya_{YEAR}.json", "w") as f:

@@ -21,6 +21,8 @@
     <div x-data="router()">
 
 	  <template x-route="/data/:path?"></template>
+
+	  <template x-route="/" x-handler="main"></template>
 	  <template x-route="/:year/:place?" x-handler="main"></template>
     </div>
 
@@ -67,7 +69,7 @@
         </div>
         <div x-show="!$store.holidays.next">
           <p class="lead">
-            No hi ha més festes laborals el 2024
+            Aquest any no hi ha més festes laborals
           </p>
         </div>
 
@@ -175,6 +177,5 @@
       <p>Fet per <a href="https://amercader.net">amercader</a>. Codi font disponible a <a href="https://github.com/amercader/calendari">GitHub</a>.
     </main>
 
-    <script src="/data/2024/web_locals_2024.js"></script>
   </body>
 </html>

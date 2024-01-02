@@ -14,40 +14,13 @@ Alpine.plugin(PineconeRouter)
 window.Alpine = Alpine
 
 const uuid = 'e11d0663-1ffd-4936-83d2-7fd6a2ccf874'
-const year = 2024
-const years = [2023, 2024]
-
-const holidays = {
-  2023: [
-    { date: '2023-01-06', name: 'Reis', scope: 'Catalunya' },
-    { date: '2023-04-07', name: 'Divendres Sant', scope: 'Espanya' },
-    { date: '2023-04-10', name: 'Pasqua Florida', scope: 'Catalunya' },
-    { date: '2023-05-01', name: 'Festa del Treball', scope: 'Espanya' },
-    { date: '2023-06-24', name: 'Sant Joan', scope: 'Catalunya' },
-    { date: '2023-08-15', name: "L'Assumpció", scope: 'Espanya' },
-    { date: '2023-09-11', name: 'Diada Nacional de Catalunya', scope: 'Catalunya' },
-    { date: '2023-10-12', name: "Festa Nacional d'Espanya", scope: 'Espanya' },
-    { date: '2023-11-01', name: 'Tots Sants', scope: 'Espanya' },
-    { date: '2023-12-06', name: 'Dia de la Constitució', scope: 'Espanya' },
-    { date: '2023-12-08', name: 'La Immaculada', scope: 'Espanya' },
-    { date: '2023-12-25', name: 'Nadal', scope: 'Espanya' },
-    { date: '2023-12-26', name: 'Sant Esteve', scope: 'Catalunya' }
-  ],
-  2024: [
-    { date: '2024-01-01', name: "Cap d'Any", scope: 'Espanya' },
-    { date: '2024-01-06', name: 'Reis', scope: 'Catalunya' },
-    { date: '2024-03-29', name: 'Divendres Sant', scope: 'Espanya' },
-    { date: '2024-04-01', name: 'Pasqua Florida', scope: 'Catalunya' },
-    { date: '2024-05-01', name: 'Festa del Treball', scope: 'Espanya' },
-    { date: '2024-06-24', name: 'Sant Joan', scope: 'Catalunya' },
-    { date: '2024-08-15', name: "L'Assumpció", scope: 'Espanya' },
-    { date: '2024-09-11', name: 'Diada Nacional de Catalunya', scope: 'Catalunya' },
-    { date: '2024-10-12', name: "Festa Nacional d'Espanya", scope: 'Espanya' },
-    { date: '2024-11-01', name: 'Tots Sants', scope: 'Espanya' },
-    { date: '2024-12-06', name: 'Dia de la Constitució', scope: 'Espanya' },
-    { date: '2024-12-25', name: 'Nadal', scope: 'Espanya' },
-    { date: '2024-12-26', name: 'Sant Esteve', scope: 'Catalunya' }
-  ]
+const years = [2024, 2023]
+let year
+const inputYear = new URL(window.location.href).pathname.split('/')[1]
+if (!years.includes(parseInt(inputYear))) {
+  year = years[0]
+} else {
+  year = parseInt(inputYear)
 }
 
 const dayFormatter = new Intl.DateTimeFormat('ca', { month: 'long', day: 'numeric' })
@@ -125,49 +98,58 @@ document.addEventListener('alpine:init', () => {
 
   })
 
-  holidays[Alpine.store('holidays').year].forEach(h => Alpine.store('holidays').add(h))
 })
 
 Alpine.data('router', () => ({
 
   main (context) {
     const inputYear = context.params.year
-
-    if (!years.includes(parseInt(inputYear))) {
+    if (inputYear && !years.includes(parseInt(inputYear))) {
       document.dispatchEvent(
         new CustomEvent(
           'show-message', { detail: { message: "No tenim les dates d'aquest any! T'ensenyem l'actual." } }))
-      Alpine.store('holidays').year = years[0]
-    } else {
-      Alpine.store('holidays').year = inputYear
     }
-    if (context.params.place) {
-      const slug = context.params.place
-      let place
-      let match = false
-      window.localHolidays.some((p) => {
-        place = p
-        match = commonSlugify(p.n, { lower: true }) === slug
-        return match
-      })
-      if (match) {
-        if (!Alpine.store('holidays').calendarReady) {
-          Alpine.store('holidays').pendingPlace = { name: place.n, dates: place.d }
-        } else {
-          Alpine.store('holidays').updatePlace(place.n, place.d)
+
+    fetch(`/data/${year}/web_${year}.json`)
+      .then(response => response.json())
+      .then((data) => {
+
+        data.common.forEach(h => Alpine.store('holidays').add(h))
+
+        Alpine.store('holidays').localHolidays = data.local
+
+        if (context.params.place) {
+          const slug = context.params.place
+          let place
+          let match = false
+          Alpine.store('holidays').localHolidays.some((p) => {
+            place = p
+            match = commonSlugify(p.n, { lower: true }) === slug
+            return match
+          })
+          if (match) {
+            if (!Alpine.store('holidays').calendarReady) {
+              Alpine.store('holidays').pendingPlace = { name: place.n, dates: place.d }
+            } else {
+              Alpine.store('holidays').updatePlace(place.n, place.d)
+            }
+          } else {
+            document.dispatchEvent(
+              new CustomEvent(
+                'show-message', { detail: { message: "Lloc desconegut! T'ensenyem les fetes a tot Catalunya." } }))
+          }
         }
-      } else {
+
         document.dispatchEvent(
           new CustomEvent(
-            'show-message', { detail: { message: "Lloc desconegut! T'ensenyem les fetes a tot Catalunya." } }))
-      }
-    }
+            'places-ready'))
+      })
   }
 
 }))
 
 Alpine.data('message', () => ({
-  text: 'un error!! :(',
+  text: 'Un error!! :(',
   alertOpen: false,
   init () {
     document.addEventListener('show-message', (e) => this.show(e.detail.message))
@@ -185,12 +167,16 @@ Alpine.data('message', () => ({
 Alpine.data('search', () => ({
   alertOpen: false,
   searchControl: null,
+
   init () {
+    document.addEventListener('places-ready', () => this.initSearch())
+  },
+  initSearch () {
     const config = {
       selector: '#search',
       placeHolder: '',
       data: {
-        src: window.localHolidays,
+        src: Alpine.store('holidays').localHolidays,
         keys: ['n']
       },
       resultItem: {
