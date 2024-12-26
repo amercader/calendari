@@ -16,7 +16,10 @@ window.Alpine = Alpine
 const uuid = 'e11d0663-1ffd-4936-83d2-7fd6a2ccf874'
 const years = [2025, 2024, 2023]
 let year = new Date().getFullYear();
-year = 2025
+const parts = new URL(window.location.href).pathname.split('/')
+if (parts.length == 3) {
+  year = parseInt(parts[2])
+}
 if (!years.includes(year)) {
   year = years[0]
 }
