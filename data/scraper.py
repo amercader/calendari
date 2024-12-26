@@ -22,7 +22,7 @@ from selenium.webdriver.common.by import By
 from tqdm.auto import tqdm
 from slugify import slugify
 
-YEAR = 2024
+YEAR = 2025
 BASE_URL = "https://ocupacio.extranet.gencat.cat"
 BASE_ID = "e11d0663-1ffd-4936-83d2-7fd6a2ccf874"
 
