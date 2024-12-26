@@ -285,7 +285,7 @@ def create_sitemap():
         rows = [row for row in reader]
 
     for row in rows:
-        out.append(f'{base}/{YEAR}/{slugify(parse_name(row["nom"]))}')
+        out.append(f'{base}/{slugify(parse_name(row["nom"]))}')
 
     with open(f"{PUBLIC_DIR}/sitemap.txt", "w") as f:
         f.write("\n".join(out))

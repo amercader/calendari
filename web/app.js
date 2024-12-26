@@ -14,13 +14,11 @@ Alpine.plugin(PineconeRouter)
 window.Alpine = Alpine
 
 const uuid = 'e11d0663-1ffd-4936-83d2-7fd6a2ccf874'
-const years = [2024, 2023]
-let year
-const inputYear = new URL(window.location.href).pathname.split('/')[1]
-if (!years.includes(parseInt(inputYear))) {
+const years = [2025, 2024, 2023]
+let year = new Date().getFullYear();
+year = 2025
+if (!years.includes(year)) {
   year = years[0]
-} else {
-  year = parseInt(inputYear)
 }
 
 const dayFormatter = new Intl.DateTimeFormat('ca', { month: 'long', day: 'numeric' })
@@ -202,7 +200,7 @@ Alpine.data('search', () => ({
     }
     this.searchControl.input.value = name
 
-    history.pushState({}, '', `/${year}/` + commonSlugify(name, { lower: true }))
+    history.pushState({}, '', commonSlugify(name, { lower: true }))
 
     Alpine.store('holidays').updatePlace(name, dates)
   },
