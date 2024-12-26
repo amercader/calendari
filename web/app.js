@@ -16,10 +16,14 @@ window.Alpine = Alpine
 const uuid = 'e11d0663-1ffd-4936-83d2-7fd6a2ccf874'
 const years = [2025, 2024, 2023]
 let year = new Date().getFullYear();
-const parts = new URL(window.location.href).pathname.split('/')
-if (parts.length == 3) {
-  year = parseInt(parts[2])
+const parts = new URL(window.location.href).pathname.split('/').filter(Boolean)
+if (parts.length == 2) {
+  year = parseInt(parts[1])
+} else if (years.includes(parseInt(parts[0]))) {
+  year = parseInt(parts[0])
 }
+
+
 if (!years.includes(year)) {
   year = years[0]
 }
@@ -119,7 +123,7 @@ Alpine.data('router', () => ({
 
         Alpine.store('holidays').localHolidays = data.local
 
-        if (context.params.place) {
+        if (context.params.place && !years.includes(parseInt(context.params.place))) {
           const slug = context.params.place
           let place
           let match = false
