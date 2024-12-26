@@ -16,9 +16,14 @@
   command = "vite build"
 
 [[redirects]]
-  from = "/"
-  to = "/2024"
-  status = 302
+  from = "/2023/:place"
+  to = "/:place"
+  status = 301
+
+[[redirects]]
+  from = "/2024/:place"
+  to = "/:place"
+  status = 301
 
 [[redirects]]
   from = "/*/*"

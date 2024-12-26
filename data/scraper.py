@@ -4,6 +4,7 @@ import argparse
 import csv
 import datetime
 import json
+import os
 from pathlib import Path
 import shutil
 import sys
@@ -21,7 +22,7 @@ from selenium.webdriver.common.by import By
 from tqdm.auto import tqdm
 from slugify import slugify
 
-YEAR = 2024
+YEAR = 2025
 BASE_URL = "https://ocupacio.extranet.gencat.cat"
 BASE_ID = "e11d0663-1ffd-4936-83d2-7fd6a2ccf874"
 
@@ -107,7 +108,13 @@ def get_common_holidays():
         return [row for row in reader]
 
 
-def scrape_places(driver, ids=None, start=None):
+def get_missing_places():
+    with open(f"{DATA_DIR}/festes_locals_catalunya_{YEAR}.csv") as f:
+        reader = csv.DictReader(f)
+        return [row["id"] for row in reader if not row["festa1"]]
+
+
+def scrape_places(driver, ids=None, start=None, new_file=True, use_cache=True):
 
     with open(f"{DATA_DIR}/places_links.json") as f:
         places = json.load(f)
@@ -124,7 +131,11 @@ def scrape_places(driver, ids=None, start=None):
     # Festa d'Aran
     common.append(f"{YEAR}-06-17")
 
-    with open(f"{DATA_DIR}/festes_locals_catalunya_{YEAR}.csv", "a+") as f:
+    output_csv = f"{DATA_DIR}/festes_locals_catalunya_{YEAR}.csv"
+    if new_file and os.path.exists(output_csv):
+        os.remove(output_csv)
+
+    with open(output_csv, "a+") as f:
         fields = ["id", "nom", "festa1", "festa2"]
         writer = csv.DictWriter(f, fieldnames=fields)
         if not f.readline().startswith("id,"):
@@ -133,9 +144,17 @@ def scrape_places(driver, ids=None, start=None):
         pbar = tqdm(ids)
         for id_ in pbar:
 
-            time.sleep(randrange(3, 10))
+            place_file = f"{DATA_DIR}/llocs/{id_}_{YEAR}.json"
+            place = None
+            if use_cache:
+                if os.path.exists(place_file):
+                    with open(place_file) as pf:
+                        place = json.load(pf)
+            if not place:
+                time.sleep(randrange(3, 10))
 
-            place = get_place_holidays(id_, driver)
+                place = get_place_holidays(id_, driver)
+
             pbar.set_description(place["name"])
 
             if not place["holidays"]:
@@ -144,16 +163,16 @@ def scrape_places(driver, ids=None, start=None):
 
             local = sorted([d for d in place["holidays"] if d not in common])
 
-            writer.writerow(
-                {
-                    "id": id_,
-                    "nom": place["name"],
-                    "festa1": local[0] if len(local) > 1 else "",
-                    "festa2": local[1] if len(local) == 2 else "",
-                }
-            )
+            row = {
+                "id": id_,
+                "nom": place["name"],
+                "festa1": local[0] if len(local) > 1 else "",
+                "festa2": local[1] if len(local) == 2 else "",
+            }
 
-            with open(f"{DATA_DIR}/llocs/{id_}_{YEAR}.json", "w") as f:
+            writer.writerow(row)
+
+            with open(place_file, "w") as f:
                 json.dump(place, f)
 
 
@@ -266,7 +285,7 @@ def create_sitemap():
         rows = [row for row in reader]
 
     for row in rows:
-        out.append(f'{base}/{YEAR}/{slugify(parse_name(row["nom"]))}')
+        out.append(f'{base}/{slugify(parse_name(row["nom"]))}')
 
     with open(f"{PUBLIC_DIR}/sitemap.txt", "w") as f:
         f.write("\n".join(out))
@@ -414,6 +433,7 @@ if __name__ == "__main__":
         choices=[
             "place",
             "all-places",
+            "missing-places",
             "places-ids",
             "web-files",
             "calendar",
@@ -434,7 +454,7 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    if args.command in ["place", "all-places", "places-ids"]:
+    if args.command in ["place", "all-places", "missing-places", "places-ids"]:
         try:
             driver = webdriver.Firefox()
             if args.command == "place":
@@ -448,6 +468,11 @@ if __name__ == "__main__":
             elif args.command == "all-places":
 
                 scrape_places(driver, start=args.start)
+
+            elif args.command == "missing-places":
+
+                missing_ids = get_missing_places()
+                scrape_places(driver, ids=missing_ids, new_file=False, use_cache=False)
 
             elif args.command == "places-ids":
 
