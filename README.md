@@ -18,7 +18,7 @@ Per veure les comandes disponibles:
 #### Afegir les festes d'un any
 
 1. Actualizar la variable `YEAR` a `scraper.py`
-2. Crear manualment l'arxiu `festes_catalunya_{year}.csv`
+2. Crear manualment l'arxiu `data/festes_catalunya_{year}.csv`
 3. Executar `python scraper.py places-ids` per obtenir totes les localitats
 4. Executar `python scraper.py all-places` per obtenir les festes
 5. Executar `python scraper.py web-files` per obtenir els nous arxius de producció
