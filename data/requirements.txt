@@ -4,3 +4,4 @@ beautifulsoup4
 icalendar
 selenium
 tqdm
+python-slugify

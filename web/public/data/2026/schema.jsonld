@@ -1,0 +1,230 @@
+[
+    {
+        "@context": "http://schema.org",
+        "@type": "Event",
+        "startDate": "2025-01-01",
+        "endDate": "2025-01-02",
+        "name": "Cap d'Any",
+        "location": {
+            "@type": "Place",
+            "name": "Catalonia",
+            "address": {
+                "addressRegion": "Catalonia"
+            }
+        }
+    },
+    {
+        "@context": "http://schema.org",
+        "@type": "Event",
+        "startDate": "2025-01-06",
+        "endDate": "2025-01-07",
+        "name": "Reis",
+        "location": {
+            "@type": "Place",
+            "name": "Catalonia",
+            "address": {
+                "addressRegion": "Catalonia"
+            }
+        }
+    },
+    {
+        "@context": "http://schema.org",
+        "@type": "Event",
+        "startDate": "2025-04-03",
+        "endDate": "2025-04-04",
+        "name": "Divendres Sant",
+        "location": {
+            "@type": "Place",
+            "name": "Catalonia",
+            "address": {
+                "addressRegion": "Catalonia"
+            }
+        }
+    },
+    {
+        "@context": "http://schema.org",
+        "@type": "Event",
+        "startDate": "2025-04-06",
+        "endDate": "2025-04-07",
+        "name": "Pasqua Florida",
+        "location": {
+            "@type": "Place",
+            "name": "Catalonia",
+            "address": {
+                "addressRegion": "Catalonia"
+            }
+        }
+    },
+    {
+        "@context": "http://schema.org",
+        "@type": "Event",
+        "startDate": "2025-05-01",
+        "endDate": "2025-05-02",
+        "name": "Festa del Treball",
+        "location": {
+            "@type": "Place",
+            "name": "Catalonia",
+            "address": {
+                "addressRegion": "Catalonia"
+            }
+        }
+    },
+    {
+        "@context": "http://schema.org",
+        "@type": "Event",
+        "startDate": "2025-06-24",
+        "endDate": "2025-06-25",
+        "name": "Sant Joan",
+        "location": {
+            "@type": "Place",
+            "name": "Catalonia",
+            "address": {
+                "addressRegion": "Catalonia"
+            }
+        }
+    },
+    {
+        "@context": "http://schema.org",
+        "@type": "Event",
+        "startDate": "2025-08-15",
+        "endDate": "2025-08-16",
+        "name": "L'Assumpci\u00f3",
+        "location": {
+            "@type": "Place",
+            "name": "Catalonia",
+            "address": {
+                "addressRegion": "Catalonia"
+            }
+        }
+    },
+    {
+        "@context": "http://schema.org",
+        "@type": "Event",
+        "startDate": "2025-09-11",
+        "endDate": "2025-09-12",
+        "name": "Diada Nacional de Catalunya",
+        "location": {
+            "@type": "Place",
+            "name": "Catalonia",
+            "address": {
+                "addressRegion": "Catalonia"
+            }
+        }
+    },
+    {
+        "@context": "http://schema.org",
+        "@type": "Event",
+        "startDate": "2025-10-12",
+        "endDate": "2025-10-13",
+        "name": "Dia de la Hispanitat",
+        "location": {
+            "@type": "Place",
+            "name": "Catalonia",
+            "address": {
+                "addressRegion": "Catalonia"
+            }
+        }
+    },
+    {
+        "@context": "http://schema.org",
+        "@type": "Event",
+        "startDate": "2025-12-08",
+        "endDate": "2025-12-09",
+        "name": "Immaculada",
+        "location": {
+            "@type": "Place",
+            "name": "Catalonia",
+            "address": {
+                "addressRegion": "Catalonia"
+            }
+        }
+    },
+    {
+        "@context": "http://schema.org",
+        "@type": "Event",
+        "startDate": "2025-12-25",
+        "endDate": "2025-12-26",
+        "name": "Nadal",
+        "location": {
+            "@type": "Place",
+            "name": "Catalonia",
+            "address": {
+                "addressRegion": "Catalonia"
+            }
+        }
+    },
+    {
+        "@context": "http://schema.org",
+        "@type": "Event",
+        "startDate": "2025-12-26",
+        "endDate": "2025-12-27",
+        "name": "Sant Esteve",
+        "location": {
+            "@type": "Place",
+            "name": "Catalonia",
+            "address": {
+                "addressRegion": "Catalonia"
+            }
+        }
+    },
+    {
+        "@context": "http://schema.org",
+        "@type": "Dataset",
+        "name": "Festes laborals a Catalunya 2026",
+        "description": "Public holidays in Catalonia for 2026, including date, name and scope (national or regional)\nFestes laborals a Catalunya 2026, inclou la data, el nom de la festa i l'\u00e0mbit (estatal o auton\u00f2mic)",
+        "temporalCoverage": "2026",
+        "spatialCoverage": "Catalunya",
+        "license": {
+            "@type": "CreativeWork",
+            "name": "Llic\u00e8ncia oberta d'\u00fas d'informaci\u00f3 - Catalunya",
+            "url": "https://governobert.gencat.cat/ca/dades_obertes/llicencia-oberta-informacio-catalunya/"
+        },
+        "distribution": [
+            {
+                "@type": "DataDownload",
+                "contentUrl": "https://quanesfesta.cat/2026/data/festes_catalunya_2026.xlsx",
+                "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            },
+            {
+                "@type": "DataDownload",
+                "contentUrl": "https://quanesfesta.cat/2026/data/festes_catalunya_2026.csv",
+                "encodingFormat": "application/csv"
+            },
+            {
+                "@type": "DataDownload",
+                "contentUrl": "https://quanesfesta.cat/2026/data/festes_catalunya_2026.json",
+                "encodingFormat": "application/json"
+            }
+        ]
+    },
+    {
+        "@context": "http://schema.org",
+        "@type": "Dataset",
+        "name": "Festes locals a Catalunya 2026",
+        "description": "Local public holidays in Catalonia for 2026, including date and location\nFestes laborals locals a Catalunya 2026, inclou les dates i el nom de la localitat",
+        "temporalCoverage": "2026",
+        "spatialCoverage": "Catalunya",
+        "license": {
+            "@type": "CreativeWork",
+            "name": "Llic\u00e8ncia oberta d'\u00fas d'informaci\u00f3 - Catalunya",
+            "url": "https://governobert.gencat.cat/ca/dades_obertes/llicencia-oberta-informacio-catalunya/"
+        },
+        "distribution": [
+            {
+                "@type": "DataDownload",
+                "contentUrl": "https://quanesfesta.cat/2026/data/festes_locals_catalunya_2026.xlsx",
+                "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            },
+            {
+                "@type": "DataDownload",
+                "contentUrl": "https://quanesfesta.cat/2026/data/festes_locals_catalunya_2026.csv",
+                "encodingFormat": "application/csv"
+            },
+            {
+                "@type": "DataDownload",
+                "contentUrl": "https://quanesfesta.cat/2026/data/festes_locals_catalunya_2026.json",
+                "encodingFormat": "application/json"
+            }
+        ]
+    }
+]

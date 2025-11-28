@@ -22,7 +22,7 @@ from selenium.webdriver.common.by import By
 from tqdm.auto import tqdm
 from slugify import slugify
 
-YEAR = 2025
+YEAR = 2026
 BASE_URL = "https://ocupacio.extranet.gencat.cat"
 BASE_ID = "e11d0663-1ffd-4936-83d2-7fd6a2ccf874"
 
@@ -57,7 +57,6 @@ def get_places_links():
                 "url": BASE_URL + link.get("href"),
             }
         )
-
     return out
 
 
@@ -238,12 +237,14 @@ def _create_web_local_files():
         "local": [
             {
                 "n": parse_name(row["nom"]),
-                "d": [
-                    row["festa1"].replace(f"{YEAR}", "").replace("-", ""),
-                    row["festa2"].replace(f"{YEAR}", "").replace("-", ""),
-                ]
-                if row["festa1"]
-                else None,
+                "d": (
+                    [
+                        row["festa1"].replace(f"{YEAR}", "").replace("-", ""),
+                        row["festa2"].replace(f"{YEAR}", "").replace("-", ""),
+                    ]
+                    if row["festa1"]
+                    else None
+                ),
             }
             for row in rows
         ],
@@ -455,8 +456,47 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.command in ["place", "all-places", "missing-places", "places-ids"]:
+        driver = None
         try:
-            driver = webdriver.Firefox()
+
+            """
+            from selenium.webdriver.chrome.options import Options
+            from selenium.webdriver.chrome.service import Service
+            options = Options()
+            options.BinaryLocation = "/snap/bin/chromium"
+            options.add_argument("--no-sandbox")
+            options.add_argument("--disable-dev-shm-usage")
+
+
+            from webdriver_manager.chrome import ChromeDriverManager
+
+            driver = webdriver.Chrome(
+                service=Service(ChromeDriverManager().install()),
+                options=options
+            )
+
+
+
+            from selenium.webdriver.firefox.options import Options
+
+            # Set up options
+            firefox_options = Options()
+            firefox_options.binary_location = "/snap/bin/firefox"
+
+            # Create driver
+            driver = webdriver.Firefox(options=firefox_options)
+            """
+            from selenium.webdriver.firefox.options import Options
+            from selenium.webdriver.firefox.service import Service
+
+            """Set up webdriver fixture."""
+            options = Options()
+            options.add_argument("--no-sandbox")
+            options.add_argument("--disable-dev-shm-usage")
+
+            service = Service(executable_path="/snap/bin/firefox.geckodriver")
+            driver = webdriver.Firefox(options=options, service=service)
+            # driver = webdriver.Chrome(options=options)
             if args.command == "place":
                 if not args.id:
                     print("Need to provide an --id")
@@ -479,8 +519,10 @@ if __name__ == "__main__":
                 save_places_links()
 
         finally:
-            driver.quit()
+            if driver:
+                driver.quit()
 
+#            raise
             sys.exit()
 
     if args.command == "web-files":

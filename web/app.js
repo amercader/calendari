@@ -14,7 +14,7 @@ Alpine.plugin(PineconeRouter)
 window.Alpine = Alpine
 
 const uuid = 'e11d0663-1ffd-4936-83d2-7fd6a2ccf874'
-const years = [2025, 2024, 2023]
+const years = [2026, 2025, 2024, 2023]
 let year = new Date().getFullYear();
 const parts = new URL(window.location.href).pathname.split('/').filter(Boolean)
 if (parts.length == 2) {
