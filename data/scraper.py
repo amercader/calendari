@@ -434,6 +434,7 @@ if __name__ == "__main__":
         choices=[
             "place",
             "all-places",
+            "places-from-cache",
             "missing-places",
             "places-ids",
             "web-files",
@@ -458,45 +459,15 @@ if __name__ == "__main__":
     if args.command in ["place", "all-places", "missing-places", "places-ids"]:
         driver = None
         try:
-
-            """
-            from selenium.webdriver.chrome.options import Options
-            from selenium.webdriver.chrome.service import Service
-            options = Options()
-            options.BinaryLocation = "/snap/bin/chromium"
-            options.add_argument("--no-sandbox")
-            options.add_argument("--disable-dev-shm-usage")
-
-
-            from webdriver_manager.chrome import ChromeDriverManager
-
-            driver = webdriver.Chrome(
-                service=Service(ChromeDriverManager().install()),
-                options=options
-            )
-
-
-
-            from selenium.webdriver.firefox.options import Options
-
-            # Set up options
-            firefox_options = Options()
-            firefox_options.binary_location = "/snap/bin/firefox"
-
-            # Create driver
-            driver = webdriver.Firefox(options=firefox_options)
-            """
             from selenium.webdriver.firefox.options import Options
             from selenium.webdriver.firefox.service import Service
 
-            """Set up webdriver fixture."""
             options = Options()
             options.add_argument("--no-sandbox")
             options.add_argument("--disable-dev-shm-usage")
 
             service = Service(executable_path="/snap/bin/firefox.geckodriver")
             driver = webdriver.Firefox(options=options, service=service)
-            # driver = webdriver.Chrome(options=options)
             if args.command == "place":
                 if not args.id:
                     print("Need to provide an --id")
@@ -508,6 +479,8 @@ if __name__ == "__main__":
             elif args.command == "all-places":
 
                 scrape_places(driver, start=args.start)
+
+
 
             elif args.command == "missing-places":
 
@@ -522,10 +495,12 @@ if __name__ == "__main__":
             if driver:
                 driver.quit()
 
-#            raise
             sys.exit()
 
-    if args.command == "web-files":
+    if args.command == "places-from-cache":
+        scrape_places(None, start=args.start, use_cache=True)
+
+    elif args.command == "web-files":
         create_web_files()
 
     elif args.command == "calendar":
