@@ -2,8 +2,8 @@
     {
         "@context": "http://schema.org",
         "@type": "Event",
-        "startDate": "2025-01-01",
-        "endDate": "2025-01-02",
+        "startDate": "2026-01-01",
+        "endDate": "2026-01-02",
         "name": "Cap d'Any",
         "location": {
             "@type": "Place",
@@ -16,8 +16,8 @@
     {
         "@context": "http://schema.org",
         "@type": "Event",
-        "startDate": "2025-01-06",
-        "endDate": "2025-01-07",
+        "startDate": "2026-01-06",
+        "endDate": "2026-01-07",
         "name": "Reis",
         "location": {
             "@type": "Place",
@@ -30,8 +30,8 @@
     {
         "@context": "http://schema.org",
         "@type": "Event",
-        "startDate": "2025-04-03",
-        "endDate": "2025-04-04",
+        "startDate": "2026-04-03",
+        "endDate": "2026-04-04",
         "name": "Divendres Sant",
         "location": {
             "@type": "Place",
@@ -44,8 +44,8 @@
     {
         "@context": "http://schema.org",
         "@type": "Event",
-        "startDate": "2025-04-06",
-        "endDate": "2025-04-07",
+        "startDate": "2026-04-06",
+        "endDate": "2026-04-07",
         "name": "Pasqua Florida",
         "location": {
             "@type": "Place",
@@ -58,8 +58,8 @@
     {
         "@context": "http://schema.org",
         "@type": "Event",
-        "startDate": "2025-05-01",
-        "endDate": "2025-05-02",
+        "startDate": "2026-05-01",
+        "endDate": "2026-05-02",
         "name": "Festa del Treball",
         "location": {
             "@type": "Place",
@@ -72,8 +72,8 @@
     {
         "@context": "http://schema.org",
         "@type": "Event",
-        "startDate": "2025-06-24",
-        "endDate": "2025-06-25",
+        "startDate": "2026-06-24",
+        "endDate": "2026-06-25",
         "name": "Sant Joan",
         "location": {
             "@type": "Place",
@@ -86,8 +86,8 @@
     {
         "@context": "http://schema.org",
         "@type": "Event",
-        "startDate": "2025-08-15",
-        "endDate": "2025-08-16",
+        "startDate": "2026-08-15",
+        "endDate": "2026-08-16",
         "name": "L'Assumpci\u00f3",
         "location": {
             "@type": "Place",
@@ -100,8 +100,8 @@
     {
         "@context": "http://schema.org",
         "@type": "Event",
-        "startDate": "2025-09-11",
-        "endDate": "2025-09-12",
+        "startDate": "2026-09-11",
+        "endDate": "2026-09-12",
         "name": "Diada Nacional de Catalunya",
         "location": {
             "@type": "Place",
@@ -114,8 +114,8 @@
     {
         "@context": "http://schema.org",
         "@type": "Event",
-        "startDate": "2025-10-12",
-        "endDate": "2025-10-13",
+        "startDate": "2026-10-12",
+        "endDate": "2026-10-13",
         "name": "Dia de la Hispanitat",
         "location": {
             "@type": "Place",
@@ -128,8 +128,8 @@
     {
         "@context": "http://schema.org",
         "@type": "Event",
-        "startDate": "2025-12-08",
-        "endDate": "2025-12-09",
+        "startDate": "2026-12-08",
+        "endDate": "2026-12-09",
         "name": "Immaculada",
         "location": {
             "@type": "Place",
@@ -142,8 +142,8 @@
     {
         "@context": "http://schema.org",
         "@type": "Event",
-        "startDate": "2025-12-25",
-        "endDate": "2025-12-26",
+        "startDate": "2026-12-25",
+        "endDate": "2026-12-26",
         "name": "Nadal",
         "location": {
             "@type": "Place",
@@ -156,8 +156,8 @@
     {
         "@context": "http://schema.org",
         "@type": "Event",
-        "startDate": "2025-12-26",
-        "endDate": "2025-12-27",
+        "startDate": "2026-12-26",
+        "endDate": "2026-12-27",
         "name": "Sant Esteve",
         "location": {
             "@type": "Place",
